@@ -1,0 +1,67 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.feraz.facturasext.model;
+
+/**
+ *
+ * @author Ing. David Ortiz García
+ */
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+
+@Embeddable
+public class ErpExtFacturasId implements java.io.Serializable{
+    
+    @Column (name = "COMPANIA")
+    private String compania;
+    
+    @Column (name = "INVOICE_NO")
+    private String invoiceNo;
+    
+    @Column (name = "SEC")
+    private Integer sec;
+    
+    
+    public ErpExtFacturasId(){
+    
+    }
+    
+    public ErpExtFacturasId(String compania, String invoiceNo, Integer sec){
+    
+        this.compania = compania;
+        this.invoiceNo = invoiceNo;
+        this.sec = sec;
+    }
+
+    public String getCompania() {
+        return compania;
+    }
+
+    public void setCompania(String compania) {
+        this.compania = compania;
+    }
+
+    public String getInvoiceNo() {
+        return invoiceNo;
+    }
+
+    public void setInvoiceNo(String invoiceNo) {
+        this.invoiceNo = invoiceNo;
+    }
+
+    public Integer getSec() {
+        return sec;
+    }
+
+    public void setSec(Integer sec) {
+        this.sec = sec;
+    }
+    
+    
+    
+    
+}

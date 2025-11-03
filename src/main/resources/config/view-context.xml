@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+        
+    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <prop key="/polizas">viewInit1</prop>
+                <prop key="/fe">viewInit12</prop>
+                <prop key="/cfdi">viewCargaFE2</prop>		
+                <prop key="/convertidor">viewInit3</prop>
+                <prop key="/FEPolizas">viewInit4</prop>
+                <prop key="/help">viewInit5</prop>		
+                <prop key="/dashboard">dashboard</prop>	
+                <prop key="/cxpfe">viewCXP</prop>	
+                <prop key="/uploadF">viewUpload</prop>	
+                <prop key="/uploadFE">viewUploadFE</prop>
+                <prop key="/uploadGe">viewUploadGe</prop>
+                <prop key="/uploadCe">viewUploadComplete</prop>
+                <prop key="/cuentas">viewCuentas</prop>
+                <prop key="/readCFDI">viewReadCFDI</prop>
+                <prop key="/transaccionSAT">viewTransaccionSAT</prop>
+                <prop key="/consolida">viewConsolida</prop>
+                <prop key="/conc">viewConciliacion</prop>
+                <prop key="/formula">viewFormulas</prop>
+                <prop key="/proveedores">viewProveedores</prop>
+                <prop key="/clientes">viewClientes</prop>
+                <prop key="/portal">loginPortal</prop>
+		
+            </props>
+        </property>
+    </bean>
+    
+    
+    <bean id="viewInit" class="org.jamh.genericscontroller1.controllers.ViewInit" />
+    <bean id="viewInit1" class="org.jamh.genericscontroller1.controllers.ViewInit1" />
+    <bean id="viewInit12" class="org.jamh.genericscontroller1.controllers.ViewInit12" />
+    <bean id="viewInit3" class="org.jamh.genericscontroller1.controllers.ViewInit3" />
+    <bean id="viewInit4" class="org.jamh.genericscontroller1.controllers.ViewInit4" />
+    <bean id="viewInit5" class="org.jamh.genericscontroller1.controllers.ViewInit5" />
+    <bean id="viewCXP" class="org.jamh.genericscontroller1.controllers.ViewCXP" />
+    <bean id="viewUpload" class="org.jamh.genericscontroller1.controllers.ViewUpload" />
+    <bean id="viewUploadFE" class="org.jamh.genericscontroller1.controllers.ViewUploadFE" />
+
+    <bean id="viewUploadGe" class="org.jamh.genericscontroller1.controllers.ViewUploadGe" />
+    <bean id="viewCuentas" class="org.jamh.genericscontroller1.controllers.ViewCuentas" />
+    <bean id="dashboard" class="org.jamh.genericscontroller1.controllers.Dashboard" />
+    <bean id="viewReadCFDI" class="org.jamh.genericscontroller1.controllers.ViewReadCFDI" />
+    <bean id="viewTransaccionSAT" class="org.jamh.genericscontroller1.controllers.ViewTransaccionSAT" />   
+    <bean id="viewConsolida" class="org.jamh.genericscontroller1.controllers.ViewConsolida" />       
+    <bean id="viewCargaFE2" class="org.jamh.genericscontroller1.controllers.ViewCargaFE2" />   
+    <bean id="viewUploadComplete" class="org.jamh.genericscontroller1.controllers.ViewUploadComplete" />   
+    <bean id="viewConciliacion" class="org.jamh.genericscontroller1.controllers.ViewAppConciliacion" />        
+    <bean id="viewFormulas" class="org.jamh.genericscontroller1.controllers.ViewAppFormulas" />
+    <bean id="viewProveedores" class="org.jamh.genericscontroller1.controllers.ViewProveedores" />
+    <bean id="viewClientes" class="org.jamh.genericscontroller1.controllers.ViewClientes" />
+    <bean id="loginPortal" class="org.jamh.genericscontroller1.controllers.LoginPortal" />
+  
+
+</beans>

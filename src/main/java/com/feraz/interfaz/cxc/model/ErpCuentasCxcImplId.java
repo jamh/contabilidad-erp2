@@ -1,0 +1,58 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.feraz.interfaz.cxc.model;
+
+/**
+ *
+ * @author vavi
+ */
+    import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+
+@Embeddable
+public class ErpCuentasCxcImplId implements java.io.Serializable{
+    
+     @Column (name = "COMPANIA")
+    private String compania;
+
+     
+      @Column (name = "CLAVE")
+    private String clave;
+      
+      
+      public ErpCuentasCxcImplId(){
+      
+      }
+      
+      
+      public ErpCuentasCxcImplId (String compania,String clave){
+      
+      
+          this.compania = compania;
+          this.clave = clave;
+      }
+
+    public String getCompania() {
+        return compania;
+    }
+
+    public void setCompania(String compania) {
+        this.compania = compania;
+    }
+
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+      
+      
+
+    
+}

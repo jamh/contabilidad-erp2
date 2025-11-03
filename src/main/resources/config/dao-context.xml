@@ -1,0 +1,1278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+    
+    <bean id="cobranzaExtranjeraController" class="com.feraz.facturasext.controller.CobranzaExtranjeraController">
+        <property name="erpExtCobranzaDao" ref="erpExtCobranzaDao"/>
+        <property name="processDao" ref="processDao"/>    
+    </bean>
+    
+    <bean id="erpExtCobranzaDao" class="com.feraz.facturasext.dao.impl.ErpExtCobranzaDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="erpExtFacturasMasterDao" class="com.feraz.facturasext.dao.impl.ErpExtFacturasMasterDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpExtFacturasDao" class="com.feraz.facturasext.dao.impl.ErpExtFacturasDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="facturasExtranjerasController" class="com.feraz.facturasext.controller.FacturasExtranjerasController">
+        <property name="erpExtFacturasDao" ref="erpExtFacturasDao"/>
+        <property name="erpExtFacturasMasterDao" ref="erpExtFacturasMasterDao"/>
+        <property name="maestroValidation" ref="maestroValidation"/>
+        <property name="polizasDao" ref="polizasDao"/>
+        <property name="detPolizasDao" ref="detPolizasDao"/>
+        <property name="processDao" ref="processDao"/>
+        
+        
+    </bean>
+    
+    <bean id="erpDetImpuestosBrDao" class="com.feraz.cxp.dao.impl.ErpDetImpuestosBrDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpFoliosSolFondosDao" class="com.feraz.cajachica.dao.impl.ErpFoliosSolFondosDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpSolicitudDeFondosDao" class="com.feraz.cajachica.dao.impl.ErpSolicitudDeFondosDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpProductosSolicitadosDao" class="com.feraz.almacen.dao.impl.ErpProductosSolicitadosDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    
+    <bean id="almacenController" class="com.feraz.almacen.controller.AlmacenController">
+         <property name="processDao" ref="processDao"/>
+         <property name="erpProductosSolicitadosDao" ref="erpProductosSolicitadosDao"/>
+         
+         
+         
+        
+    </bean>
+    
+    <bean id="viaticosController" class="com.feraz.viaticos.controller.ViaticosController">
+         <property name="processDao" ref="processDao"/>
+         <property name="erpFoliosPagoViaticosDao" ref="erpFoliosPagoViaticosDao"/>
+         <property name="erpCpOtrasDao" ref="erpCpOtrasDao"/>
+         <property name="viComisionesDao" ref= "viComisionesDao"/>
+
+    </bean>
+    
+     <bean id="erpFoliosPagoViaticosDao" class="com.feraz.viaticos.dao.impl.ErpFoliosPagoViaticosDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    
+    <bean id="controlCaja" class="com.feraz.cajachica.controller.ControlCaja">
+        <property name="erpCajaChicaDao" ref="erpCajaChicaDao"/>
+        <property name="erpCajaChicaDetDao" ref="erpCajaChicaDetDao"/>
+         <property name="processDao" ref="processDao"/>
+          <property name="erpSolicitudDeFondosDao" ref="erpSolicitudDeFondosDao"/>
+          <property name="mailVerificacionVia" ref="mailVerificacionVia"/>
+          <property name="erpFoliosSolFondosDao" ref="erpFoliosSolFondosDao"/>
+          <property name="erpCajaGastosDao" ref="erpCajaGastosDao"/>
+          
+          
+        
+    </bean>
+    
+     <bean id="interfazCXPController" class="com.feraz.interfaz.cxp.controller.InterfazCXPController">
+         <property name="processDao" ref="processDao"/>
+        
+    </bean>
+    
+    
+    <bean id="viComisionesDao" class="com.feraz.viaticos.dao.impl.ViComisionesDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpCajaChicaDetDao" class="com.feraz.cajachica.dao.impl.ErpCajaChicaDetDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpCajaGastosDao" class="com.feraz.cajachica.dao.impl.ErpCajaGastosDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    
+    
+    
+    <bean id="erpCajaChicaDao" class="com.feraz.cajachica.dao.impl.ErpCajaChicaDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpNotasExtDao" class="com.feraz.cxp.dao.impl.ErpNotasExtDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpProvPagoUnicoDao" class="com.feraz.cxp.dao.impl.ErpProvPagoUnicoDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    
+    <bean id="erpCatBancoDao" class="com.feraz.interfaz.cxc.dao.impl.ErpCatBancoDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="controlInterfaz" class="com.feraz.interfaz.cxc.controller.ControlInterfaz">
+        <property name="erpCuentasCxcImplDao" ref="erpCuentasCxcImplDao"/>
+        <property name="erpCatBancoDao" ref="erpCatBancoDao"/>
+        
+    </bean>
+    
+    <bean id="erpCuentasCxcImplDao" class="com.feraz.interfaz.cxc.dao.impl.ErpCuentasCxcImplDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpWsIntercosDao" class="com.feraz.intercos.dao.impl.ErpWsIntercosDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    <bean id="erpProvisionDetDao" class="com.feraz.cxp.dao.impl.ErpProvisionDetDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+     <bean id="erpCompensacionesDetDao" class="com.feraz.compensacion.dao.impl.ErpCompensacionesDetDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    <bean id="erpCompensacionesDao" class="com.feraz.compensacion.dao.impl.ErpCompensacionesDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    <bean id="compensacionControl" class="com.feraz.compensacion.controller.CompensacionControl">
+        <property name="processDao" ref="processDao"/>
+        <property name="erpCompensacionesDao" ref="erpCompensacionesDao"/>
+        <property name="erpCompensacionesDetDao" ref="erpCompensacionesDetDao"/>
+    </bean>
+    
+    
+    
+    
+    <bean id="erpDetProrrateoXNegocioDao" class="com.feraz.cxp.dao.impl.ErpDetProrrateoXNegocioDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpDetProrrateoXConceptoDao" class="com.feraz.cxp.dao.impl.ErpDetProrrateoXConceptoDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+     <bean id="erpPedidoMaestroDao" class="com.feraz.pedidos.dao.impl.ErpPedidoMaestroDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="controlPedidos" class="com.feraz.pedidos.controller.ControlPedidos">
+        <property name="erpPedidoMaestroDao" ref="erpPedidoMaestroDao"/>
+        <property name="processDao" ref="processDao"/>
+        <property name="mailVerificacionProv" ref="mailVerificacionProv"/>
+        
+    </bean>
+    
+    <bean id="controlAutoriza" class="com.feraz.ordencompra.controll.ControlAutoriza">
+        <property name="processDao" ref="processDao"/>
+    </bean>
+    
+    
+    <bean id="erpFeTrasLocalesDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeTrasLocalesDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+     <bean id="erpFamiliaProveedorDao" class="com.feraz.cxp.dao.impl.ErpFamiliaProveedorDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    
+    <bean id="erpFeImpLocalesDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeImpLocalesDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+   
+    <bean id="wsIntercompaniasCXP" class="com.feraz.intercos.WSIntercompaniasCXP">
+        <property name="procesosIntercos" ref="procesosIntercos"/>
+    </bean>
+    <bean id="wSProveedoresUni" class="com.feraz.universidad.ws.WSProveedoresUni">
+       
+    </bean>
+    
+    <bean id="wSOrdenCompra" class="com.feraz.ordencompra.ws.WSOrdenCompra">
+       
+    </bean>
+    
+    <bean id="wSProductos" class="com.feraz.ordencompra.ws.WSProductos">
+       
+    </bean>
+    
+    
+    
+     <bean id="wScfdi" class="com.feraz.contabilidad.ws.WScfdi">
+       
+    </bean>
+    
+    <bean id="wSProveedores" class="com.feraz.contabilidad.ws.WSProveedores">
+        
+        <property name="erpCClientesDao" ref="erpCClientesDao"/>
+        <property name="processDao" ref="processDao"/> 
+       
+    </bean>
+    
+    
+    <bean id="mailVerificacion" class="com.feraz.portal.mail.MailVerificacion">
+    </bean>
+    
+    <bean id="mailVerificacionVia" class="com.feraz.cajachica.mail.MailVerificacionVia">
+    </bean>
+     <bean id="mailVerificacionProv" class="com.feraz.pedidos.mail.MailVerificacionProv">
+    </bean>
+    
+    
+    
+    
+    <bean id="procesosIntercos" class="com.feraz.intercos.util.ProcesosIntercos">
+        <property name="erpWsIntercosDao" ref="erpWsIntercosDao"/>
+        <property name="validaVersionCFDI" ref="validaVersionCFDI"/>
+        <property name="app" ref="app"/> 
+         <property name="processDao" ref="processDao"/> 
+         <property name="erpFeComprobantesDao" ref="erpFeComprobantesDao"/>
+        
+    </bean>
+    
+    
+    <bean id="validaComplemento" class="com.feraz.complemento.util.ValidaComplemento">
+ 
+         <property name="processDao" ref="processDao"/> 
+        
+    </bean>
+    
+    
+    
+    
+    
+    <bean id="controlToken" class="com.feraz.token.process.ControlToken">                    
+        <property name="processDao" ref="processDao"/> 
+    </bean>
+        
+    <bean id="processDao" class="org.jamh.data.process.ProcessDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+     <bean id="gentusDao" class="com.feraz.avisos.dao.impl.GentusDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+     <bean id="erpPolizasVSFacturasAutErrDao" class="com.feraz.cxp.dao.impl.ErpPolizasVSFacturasAutErrDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpCpConcPagoDao" class="com.feraz.cxp.dao.impl.ErpCpConcPagoDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpProvDireccionDao" class="com.feraz.cxp.dao.impl.ErpProvDireccionDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpProvProductosDao" class="com.feraz.cxp.dao.impl.ErpProvProductosDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    
+    
+    
+    
+    
+    <bean id="erpCxpFacturasXOtrasDao" class="com.feraz.cxp.dao.impl.ErpCxpFacturasXOtrasDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    
+     <bean id="processRegistroMail" class="com.feraz.avisos.controller.ProcessRegistroMail">
+        <property name="gentusDao" ref="gentusDao"/>
+    </bean>
+    
+    <bean id="auCedulasDao" class="com.feraz.formula.dao.impl.AuCedulasDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="auCedulasDetDao" class="com.feraz.formula.dao.impl.AuCedulasDetDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="processFormula" class="com.feraz.formula.controller.ProcessFormula">
+        <property name="processDao" ref="processDao"/>
+        <property name="auCedulasDetDao" ref="auCedulasDetDao"/>
+        <property name="auCedulasDao" ref="auCedulasDao"/>
+    </bean>
+    
+    <bean id="processNomPoliza" class="com.feraz.contabilidad.nomina.process.ProcessNomPoliza">
+        <property name="erpNomPolizaDao" ref="erpNomPolizaDao" />
+        <property name="erpNomCancelaDao" ref="erpNomCancelaDao"/>       
+        <property name="processDao" ref="processDao"/> 
+    </bean>
+    
+    <bean id="detDIOTDao" class="com.feraz.contabilidad.sat.diot.dao.impl.DetDIOTDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+   
+    
+    
+    <bean id="erpMsgAvisosDao" class="com.feraz.avisos.dao.impl.ErpMsgAvisosDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpMsgAvisosNumDao" class="com.feraz.avisos.dao.impl.ErpMsgAvisosNumDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpCpRelacionFacturasDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpCpRelacionFacturasDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id = "erpCxpFoliosDao"  class="com.feraz.cxp.dao.impl.ErpCxpFoliosDaoImpl">
+        <property name = "sessionFactory" ref="sessionFactory"/>
+    </bean>    
+    
+    <bean id="processAvisos" class="com.feraz.avisos.controller.ProcessAvisos">
+        <property name="erpMsgAvisosDao" ref="erpMsgAvisosDao"/>
+        <property name="erpMsgAvisosNumDao" ref="erpMsgAvisosNumDao"/>
+        <property name="processDao" ref="processDao"/> 
+        
+        
+    </bean>
+    
+     <bean id="processPagos" class="com.feraz.cxp.controll.ProcessPagos">
+        <property name="erpCxpFoliosDao" ref="erpCxpFoliosDao"/>
+         <property name="erpFeComprobantesDao" ref="erpFeComprobantesDao"/>
+         <property name="erpSeguiDocumentosDao" ref="erpSeguiDocumentosDao"/>
+         <property name="erpPolizasVSFacturasAutErrDao" ref="erpPolizasVSFacturasAutErrDao"/>
+         <property name="erpCpOtrasDao" ref="erpCpOtrasDao"/>
+         <property name="erpCxpFacturasXOtrasDao" ref="erpCxpFacturasXOtrasDao"/>
+         <property name="erpCpConcPagoDao" ref="erpCpConcPagoDao"/>
+         <property name="erpSatTransaccionDao" ref="erpSatTransaccionDao"/>
+         <property name="erpProvisionDetDao" ref="erpProvisionDetDao"/>
+         
+         <property name="erpProvPagoUnicoDao" ref="erpProvPagoUnicoDao"/>
+         
+         
+         
+         
+         
+         
+         <property name="processDao" ref="processDao"/>
+
+         
+
+    </bean>
+    
+    
+    
+    
+    <bean id="erpSatLeerCfdiDao" class="com.feraz.cfdi.dao.impl.ErpSatLeerCfdiDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="conceptosDIOTDao" class="com.feraz.contabilidad.sat.diot.dao.impl.ConceptosDIOTDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpSatAuxiliarCtasDao" class="com.feraz.contabilidad.sat.electronica.dao.impl.ErpSatAuxiliarCtasDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="erpSatAuxiliarCtasDetDao" class="com.feraz.contabilidad.sat.electronica.dao.impl.ErpSatAuxiliarCtasDetDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+     <bean id="detPolizasXTransaccionDao" class="com.feraz.contabilidad.sat.transacciones.dao.impl.DetPolizasXTransaccionDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+
+    <bean id="process" class="org.jamh.genericscontroller1.controllers.Process">
+        <property name="processDao" ref="processDao"/>               
+    </bean>
+    <bean id="foliosPolizasDao" class="com.feraz.polizas3.dao.impl.FoliosPolizasDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="polizasArchivosDao" class="com.feraz.polizas3.dao.impl.PolizasArchivosDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpNomPolizaDao" class="com.feraz.contabilidad.nomina.dao.impl.ErpNomPolizaDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpNomCancelaDao" class="com.feraz.contabilidad.nomina.dao.impl.ErpNomCancelaDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+        
+    <bean id="maestroValidation" class="com.feraz.polizas3.validation.MaestroValidation">                    
+        <property name="processDao" ref="processDao"/> 
+    </bean>
+    
+    <bean id="validationFE" class="com.feraz.facturas.webcontrolfe.validation.ValidationFE">                    
+        <property name="processDao" ref="processDao"/> 
+    </bean>
+    
+    <bean id="deleteFE" class="com.feraz.facturas.webcontrolfe.controller.DeleteFE">                   
+        <property name="processDao" ref="processDao"/> 
+        <property name="validationFE" ref="validationFE"/>
+        <property name="erpFeComprobantesDao" ref="erpFeComprobantesDao"/>
+        <property name="erpFeEmisorDao" ref="erpFeEmisorDao"/>
+        <property name="erpFeConceptosDao" ref="erpFeConceptosDao"/> 
+        <property name="erpFeImpTrasladosDao" ref="erpFeImpTrasladosDao"/>
+        <property name="erpFeImpRetencionesDao" ref="erpFeImpRetencionesDao"/>
+        <property name="erpFeReceptorDao" ref="erpFeReceptorDao"/>
+        <property name="erpFeErrDao" ref="erpFeErrDao"/>
+        <property name="erpCpOtrasDao" ref="erpCpOtrasDao"/>  
+        
+    </bean>
+      
+    <bean id="detalleValidation" class="com.feraz.polizas3.validation.DetalleValidation">                    
+        <property name="processDao" ref="processDao"/> 
+    </bean> 
+    <bean id="polizasDao" class="com.feraz.polizas3.dao.impl.PolizasDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="foliosPolizasDao" ref="foliosPolizasDao"/>
+        <property name="processDao" ref="processDao"/> 
+    </bean>
+        
+    <bean id="detPolizasDao" class="com.feraz.polizas3.dao.impl.DetPolizasDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>           
+    </bean>
+    
+    <bean id="cuentasDao" class="com.feraz.cuentas.dao.impl.CuentasDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>           
+    </bean>
+    
+    <bean id="estructurasDao" class="com.feraz.cuentas.dao.impl.EstructurasDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>           
+    </bean>
+    
+    <bean id="companiaDao" class="com.feraz.cuentas.dao.impl.CompaniaDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>           
+    </bean>
+    
+    <bean id="processCrearCuenta" class="com.feraz.cuentas.controller.ProcessCrearCuenta">
+        <property name="cuentasDao" ref="cuentasDao"/>
+        <property name="estructurasDao" ref="estructurasDao"/>
+        <property name="companiaDao" ref="companiaDao"/>
+        <property name="detPolizasDao" ref="detPolizasDao"/>
+        <property name="processDao" ref="processDao"/>   
+            
+    </bean>
+    
+    <bean id="processCrearCuenta2" class="com.feraz.cuentas.controller.ProcessCrearCuenta2">
+        <property name="cuentasDao" ref="cuentasDao"/>
+        <property name="estructurasDao" ref="estructurasDao"/>
+        <property name="companiaDao" ref="companiaDao"/>
+        <property name="detPolizasDao" ref="detPolizasDao"/>
+        <property name="processDao" ref="processDao"/>   
+            
+    </bean>
+    
+    <bean id="processCfdi" class="com.feraz.cfdi.controller.ProcessCfdi">
+        <property name="erpSatLeerCfdiDao" ref="erpSatLeerCfdiDao"/>
+        <property name="processDao" ref="processDao"/> 
+        <property name="procesaCFDISAT" ref="procesaCFDISAT"/>            
+    </bean>
+    
+    <bean id="procesaCFDISAT" class="com.feraz.cfdi.process.ProcesaCFDISAT">
+        <property name="app" ref="app"/>   
+        <property name="erpSatLeerCfdiDao" ref="erpSatLeerCfdiDao"/>               
+    </bean>
+        
+    <bean id="logPolizasDao" class="com.feraz.polizas3.dao.impl.LogPolizasDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>           
+    </bean>
+        
+    <bean id="processPolizas" class="com.feraz.polizas3.controll.ProcessPolizas">            
+        <property name="polizasDao" ref="polizasDao"/>
+        <property name="detPolizasDao" ref="detPolizasDao"/>
+        <property name="processDao" ref="processDao"/> 
+        <property name="maestroValidation" ref="maestroValidation"/>
+        <property name="erpPolizasXFacturasDao" ref="erpPolizasXFacturasDao"/>
+        <property name="detDIOTDao" ref="detDIOTDao"/> 
+    </bean>
+        
+    <bean id="processDetalle" class="com.feraz.polizas3.controll.ProcessDetalle">            
+        <property name="detPolizasDao" ref="detPolizasDao"/>
+        <property name="logPolizasDao" ref="logPolizasDao"/>
+        <property name="processDao" ref="processDao"/> 
+        <property name="detalleValidation" ref="detalleValidation"/>
+        <property name="detDIOTDao" ref="detDIOTDao"/> 
+    </bean>
+    
+    <bean id="processPolizasConv" class="com.feraz.polizas3.controll.ProcessPolizasConv">            
+        <property name="detPolizasDao" ref="detPolizasDao"/>
+        <property name="logPolizasDao" ref="logPolizasDao"/>
+        <property name="processDao" ref="processDao"/> 
+        <property name="detalleValidation" ref="detalleValidation"/>
+        <property name="maestroValidation" ref="maestroValidation"/>
+        <property name="polizasDao" ref="polizasDao"/>
+        <property name="erpCatConvertidorDao" ref="erpCatConvertidorDao"/>
+        <property name="erpDetConvertidorDao" ref="erpDetConvertidorDao"/>
+        <property name="erpPolizasXFacturasDao" ref="erpPolizasXFacturasDao"/>
+        <property name="generaContaElectronica" ref="generaContaElectronica"/>
+        
+    </bean>
+        
+        
+    <bean id="uploadDocumentController" class="com.feraz.polizas3.controll.UploadDocumentController">                       
+        <property name="processDao" ref="processDao"/> 
+        <property name="polizasArchivosDao" ref="polizasArchivosDao"/>
+        <property name="erpPolizasXFacturasDao" ref="erpPolizasXFacturasDao"/>
+        <property name="erpSatTransaccionDao" ref="erpSatTransaccionDao"/>
+        <property name="detPolizasXTransaccionDao" ref="detPolizasXTransaccionDao"/> 
+        <property name="otrasArchivosDao" ref="otrasArchivosDao"/> 
+         <property name="erpPolizasXPagosDao" ref="erpPolizasXPagosDao"/>
+        <property name="generaContaElectronica" ref="generaContaElectronica"/>
+        
+        
+    </bean>
+    
+     
+        
+    <bean id="reportController" class="com.feraz.polizas3.controll.ReportController">                       
+        <property name="sessionFactory" ref="sessionFactory"/>                      
+    </bean>
+  <!--  
+    <bean id="viewInit" class="org.jamh.genericscontroller1.controllers.ViewInit" />
+    <bean id="viewInit1" class="org.jamh.genericscontroller1.controllers.ViewInit1" />
+    <bean id="viewInit12" class="org.jamh.genericscontroller1.controllers.ViewInit12" />
+    <bean id="viewInit3" class="org.jamh.genericscontroller1.controllers.ViewInit3" />
+    <bean id="viewInit4" class="org.jamh.genericscontroller1.controllers.ViewInit4" />
+    <bean id="viewInit5" class="org.jamh.genericscontroller1.controllers.ViewInit5" />
+    <bean id="viewCXP" class="org.jamh.genericscontroller1.controllers.ViewCXP" />
+    <bean id="viewUpload" class="org.jamh.genericscontroller1.controllers.ViewUpload" />
+    <bean id="viewUploadFE" class="org.jamh.genericscontroller1.controllers.ViewUploadFE" >
+  
+  
+    </bean>
+    <bean id="viewUploadGe" class="org.jamh.genericscontroller1.controllers.ViewUploadGe" />
+    <bean id="viewCuentas" class="org.jamh.genericscontroller1.controllers.ViewCuentas" />
+    <bean id="dashboard" class="org.jamh.genericscontroller1.controllers.Dashboard" />
+    <bean id="viewReadCFDI" class="org.jamh.genericscontroller1.controllers.ViewReadCFDI" />
+    <bean id="viewTransaccionSAT" class="org.jamh.genericscontroller1.controllers.ViewTransaccionSAT" />   
+
+          
+    aPPLICATION CONTEXT DE WEBCONTROL FE-->
+    
+    
+    <bean id="erpFeNominaDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeNominaDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpFeNominaEmisorDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeNominaEmisorDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpFeNominaReceptorDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeNominaReceptorDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+     <bean id="erpFePercepcionesDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFePercepcionesDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpFeDeduccionesDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeDeduccionesDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+     <bean id="erpFePercepcionDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFePercepcionDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpFeDeduccionDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeDeduccionDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    
+    <bean id="erpFeImpuestoComplDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeImpuestoComplDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpFeRetencionComplDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeRetencionComplDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpFeTrasladoComplDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeTrasladoComplDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    
+    <bean id="erpFePagosDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFePagosDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    <bean id="erpFeDocRelacionadoDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeDocRelacionadoDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+          
+    <bean id="erpFeComprobantesDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeComprobantesDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    <bean id="erpFeAcuseCancelacionDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeAcuseCancelacionDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    
+    <bean id="erpFeConceptoXTrasladoDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeConceptoXTrasladoDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpFeConceptoXRetencionDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeConceptoXRetencionDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    
+    
+    
+    <bean id="erpFeErrDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeErrDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+        
+    <bean id="erpFeConceptosDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeConceptosDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpFeEmisorDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeEmisorDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpFeImpTrasladosDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeImpTrasladosDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpFeImpRetencionesDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeImpRetencionesDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpFeReceptorDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeReceptorDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="app" class="com.feraz.facturas.webcontrolfe.App.App" >
+        <property name="erpFeComprobantesDao" ref="erpFeComprobantesDao"/>
+        <property name="erpFeEmisorDao" ref="erpFeEmisorDao"/>
+        <property name="erpFeConceptosDao" ref="erpFeConceptosDao"/> 
+        <property name="erpFeImpTrasladosDao" ref="erpFeImpTrasladosDao"/>
+        <property name="erpFeImpRetencionesDao" ref="erpFeImpRetencionesDao"/>
+        <property name="erpFeReceptorDao" ref="erpFeReceptorDao"/>
+        <property name="erpFeErrDao" ref="erpFeErrDao"/>
+        <property name="erpPolizasXFacturasDao" ref="erpPolizasXFacturasDao"/>
+        <property name="erpCClientesDao" ref="erpCClientesDao"/>
+         <property name="processDao" ref="processDao"/>  
+         <property name="erpClientesDao" ref="erpClientesDao"/> 
+         <property name="erpFeConceptoXRetencionDao" ref="erpFeConceptoXRetencionDao"/>
+         <property name="erpFeConceptoXTrasladoDao" ref="erpFeConceptoXTrasladoDao"/>
+         
+         <property name="erpFeNominaDao" ref="erpFeNominaDao"/>
+         <property name="erpFeNominaEmisorDao" ref="erpFeNominaEmisorDao"/>
+         <property name="erpFeNominaReceptorDao" ref="erpFeNominaReceptorDao"/>
+         <property name="erpFePercepcionesDao" ref="erpFePercepcionesDao"/>
+         <property name="erpFeDeduccionesDao" ref="erpFeDeduccionesDao"/>
+         <property name="erpFePercepcionDao" ref="erpFePercepcionDao"/>
+         <property name="erpFeDeduccionDao" ref="erpFeDeduccionDao"/>
+         <property name="erpFePagosDao" ref="erpFePagosDao"/>
+         <property name="erpFeDocRelacionadoDao" ref="erpFeDocRelacionadoDao"/>
+         
+         <property name="erpFeImpuestoComplDao" ref="erpFeImpuestoComplDao"/>
+         <property name="erpFeRetencionComplDao" ref="erpFeRetencionComplDao"/>
+         <property name="erpFeTrasladoComplDao" ref="erpFeTrasladoComplDao"/>
+         <property name="erpFeImpLocalesDao" ref="erpFeImpLocalesDao"/>
+         <property name="erpFeTrasLocalesDao" ref="erpFeTrasLocalesDao"/>
+
+         
+   
+         
+    </bean>
+    
+     
+    <bean id="erpFeXMLDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeXMLDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>        
+    </bean>
+    
+    <bean id="directoryController" class="com.feraz.facturas.webcontrolfe.controller.DirectoryController">                               
+        <property name="cargaFacturas" ref="cargaFacturas"/>             
+        <property name="erpFeXMLDao" ref="erpFeXMLDao"/>   
+        <property name="processDao" ref="processDao"/> 
+        <property name="validaVersionCFDI" ref="validaVersionCFDI"/>  
+        <property name="app" ref="app"/>
+    </bean>
+    <bean id="directoryControllerCXP" class="com.feraz.facturas.webcontrolfe.controller.DirectoryControllerCXP">                               
+        <property name="cargaFacturas" ref="cargaFacturas"/>             
+        <property name="erpFeXMLDao" ref="erpFeXMLDao"/>   
+        <property name="processDao" ref="processDao"/>   
+    </bean>
+    
+    <bean id="cargaFacturas" class="com.feraz.facturas.webcontrolfe.procesa.CargaFacturas">
+        <property name="app" ref="app"/> 
+    </bean>
+        
+    <bean id="erpSatBalanzaCtasDao" class="com.feraz.contabilidad.sat.electronica.dao.impl.ErpSatBalanzaCtasDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>  
+    
+    <bean id="erpSatCatalogoDao" class="com.feraz.contabilidad.sat.electronica.dao.impl.ErpSatCatalogoDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>  
+    
+    <bean id="erpSatBalanzaDao" class="com.feraz.contabilidad.sat.electronica.dao.impl.ErpSatBalanzaDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>  
+    
+    <bean id="erpSatCatalogoCtasDao" class="com.feraz.contabilidad.sat.electronica.dao.impl.ErpSatCatalogoCtasDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>  
+    
+    <bean id="erpSatPolizaDao" class="com.feraz.contabilidad.sat.electronica.dao.impl.ErpSatPolizaDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>  
+    <bean id="erpSatPolizasDao" class="com.feraz.contabilidad.sat.electronica.dao.impl.ErpSatPolizasDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean> 
+    <bean id="erpSatRepAuxFolDao" class="com.feraz.contabilidad.sat.electronica.dao.impl.ErpSatRepAuxFolDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean> 
+    
+    <bean id="procesaSAT" class="com.feraz.contabilidad.sat.electronica.controll.ProcesaSAT">
+        <property name="erpSatCatalogoDao" ref="erpSatCatalogoDao"/>
+        <property name="erpSatBalanzaDao" ref="erpSatBalanzaDao"/>
+
+        <property name="erpSatCatalogoCtasDao" ref="erpSatCatalogoCtasDao"/>
+        <property name="erpSatPolizaDao" ref="erpSatPolizaDao"/>
+        <property name="erpSatPolizasDao" ref="erpSatPolizasDao"/>
+        
+    </bean> 
+    
+    <bean id="erpCatConvertidorDao" class="com.feraz.contabilidad.convertidor.dao.impl.ErpCatConvertidorDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="processConvertidor" class="com.feraz.contabilidad.convertidor.controller.ProcessConvertidor">                       
+        <property name="processDao" ref="processDao"/>
+        <property name="erpCatConvertidorDao" ref="erpCatConvertidorDao"/> 
+        <property name="erpDetConvertidorDao" ref="erpDetConvertidorDao"/> 
+           
+            
+    </bean> 
+        
+    <bean id="erpDetConvertidorDao" class="com.feraz.contabilidad.convertidor.dao.impl.ErpDetConvertidorDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+        
+    <bean id="processDetConvertidor" class="com.feraz.contabilidad.convertidor.controller.ProcessDetConvertidor">                       
+        <property name="processDao" ref="processDao"/>
+        <property name="erpDetConvertidorDao" ref="erpDetConvertidorDao"/> 
+        <property name="detalleValidation" ref="detalleValidation"/>
+            
+    </bean> 
+    
+    
+    <bean id="generaContaElectronica" class="com.feraz.contabilidad.sat.electronica.process.GeneraContaElectronica">                       
+        <property name="processDao" ref="processDao"/>
+        <property name="erpPolizasXFacturasDao" ref="erpPolizasXFacturasDao"/>  
+        <property name="erpPolizasXPagosDao" ref="erpPolizasXPagosDao"/> 
+        <property name="erpSatTransaccionDao" ref="erpSatTransaccionDao"/>
+        <property name="detPolizasXTransaccionDao" ref="detPolizasXTransaccionDao"/> 
+        <property name="erpSeguiDocumentosDao" ref="erpSeguiDocumentosDao"/>
+        <property name="erpFeComprobantesDao" ref="erpFeComprobantesDao"/>
+        
+        
+    </bean> 
+    
+    <bean id="generaContaElectr" class="com.feraz.facturas.webcontrolfe.process.GeneraContaElectr">                       
+        <property name="processDao" ref="processDao"/>
+        <property name="erpPolizasXFacturasDao" ref="erpPolizasXFacturasDao"/>  
+        <property name="erpPolizasXPagosDao" ref="erpPolizasXPagosDao"/> 
+        <property name="erpSatTransaccionDao" ref="erpSatTransaccionDao"/>
+        <property name="detPolizasXTransaccionDao" ref="detPolizasXTransaccionDao"/> 
+    </bean> 
+    
+    <bean id="operaciones" class="com.feraz.facturas.webcontrolfe.process.Operaciones">                                                
+    </bean>
+        
+    <bean id="uploadDocumentControllerFE" class="com.feraz.facturas.webcontrolfe.controller.UploadDocumentControllerFE">                       
+        <property name="processDao" ref="processDao"/> 
+        <property name="app" ref="app"/>   
+        <property name="erpFeComprobantesDao" ref="erpFeComprobantesDao"/>   
+        <property name="erpPolizasXFacturasDao" ref="erpPolizasXFacturasDao"/>   
+        <property name="generaPolizasListas" ref="generaPolizasListas"/> 
+        <property name="erpCpOtrasDao" ref="erpCpOtrasDao"/>
+        <property name="erpSatTransaccionDao" ref="erpSatTransaccionDao"/>
+         <property name="validaVersionCFDI" ref="validaVersionCFDI"/>
+         <property name="erpPolizasXPagosDao" ref="erpPolizasXPagosDao"/>
+         <property name="generaContaElectronica" ref="generaContaElectronica"/>
+         <property name="erpFeAcuseCancelacionDao" ref="erpFeAcuseCancelacionDao"/>
+         <property name="erpCxpFoliosDao" ref="erpCxpFoliosDao"/>
+         
+         
+         
+       
+          
+        
+    </bean>
+        
+    <bean id="erpPolizasXFacturasDao" class="com.feraz.polizas3.dao.impl.ErpPolizasXFacturasDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpPolizasXPagosDao" class="com.feraz.polizas3.dao.impl.ErpPolizasXPagosDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+       
+    <bean id="generaPolizasListas" class="com.feraz.facturas.webcontrolfe.process.GeneraPolizasListas">
+        <property name="erpCatConvertidorDao" ref="erpCatConvertidorDao"/>
+        <property name="erpDetConvertidorDao" ref="erpDetConvertidorDao"/>
+        <property name="erpFeComprobantesDao" ref="erpFeComprobantesDao"/>
+        <property name="erpFeEmisorDao" ref="erpFeEmisorDao"/>
+        <property name="erpFeReceptorDao" ref="erpFeReceptorDao"/>
+        <property name="erpFeImpTrasladosDao" ref="erpFeImpTrasladosDao"/>
+        <property name="erpFeImpRetencionesDao" ref="erpFeImpRetencionesDao"/> 
+        <property name="polizasDao" ref="polizasDao"/>               
+        <property name="detPolizasDao" ref="detPolizasDao"/>
+        <property name="processDao" ref="processDao"/>         
+        <property name="maestroValidation" ref="maestroValidation"/>  
+        <property name="detalleValidation" ref="detalleValidation"/> 
+        <property name="erpPolizasXFacturasDao" ref="erpPolizasXFacturasDao"/>
+        <property name="operaciones" ref="operaciones"/> 
+        <property name="erpParidadDao" ref = "erpParidadDao" />
+        <property name="detDIOTDao" ref="detDIOTDao"/> 
+         <property name="erpSatTransaccionDao" ref="erpSatTransaccionDao"/>
+         <property name="detPolizasXTransaccionDao" ref="detPolizasXTransaccionDao"/> 
+         <property name="erpParidadCompaniaDao" ref="erpParidadCompaniaDao"/> 
+          <property name="erpPolizasXPagosDao" ref="erpPolizasXPagosDao"/> 
+          <property name="erpFeTrasLocalesDao" ref="erpFeTrasLocalesDao"/> 
+            <property name="erpFeConceptosDao" ref="erpFeConceptosDao"/>
+         
+         
+       
+    </bean>      
+  
+    
+    <bean id="relacionFXP" class="com.feraz.facturas.webcontrolfe.controller.RelacionFXP">        
+        <property name="erpPolizasXFacturasDao" ref="erpPolizasXFacturasDao"/>   
+        <property name="processDao" ref="processDao"/> 
+        <property name="erpCpRelacionFacturasDao" ref="erpCpRelacionFacturasDao"/> 
+        <property name="erpFeComprobantesDao" ref="erpFeComprobantesDao"/> 
+        <property name="erpSatTransaccionDao" ref="erpSatTransaccionDao"/>
+        <property name="detPolizasXTransaccionDao" ref="detPolizasXTransaccionDao"/> 
+        <property name="erpPolizasXPagosDao" ref="erpPolizasXPagosDao"/> 
+        <property name="erpSeguiDocumentosDao" ref="erpSeguiDocumentosDao"/>
+        
+                
+    </bean>
+        
+    <bean id="erpParidadDao" class="com.feraz.contabilidad.convertidor.dao.impl.ErpParidadDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>     
+    </bean>
+    
+    <bean id="erpParidadCompaniaDao" class="com.feraz.contabilidad.convertidor.dao.impl.ErpParidadCompaniaDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>     
+    </bean>
+    
+    <bean id="processParidad" class="com.feraz.contabilidad.convertidor.controller.ProcessParidad">
+        <property name="erpParidadCompaniaDao" ref="erpParidadCompaniaDao"/>
+        <property name="erpParidadDao" ref="erpParidadDao"/>
+        <property name="processDao" ref="processDao"/>      
+    </bean>
+    
+    <bean id="wsContab" class="com.feraz.contabilidad.ws.nomina.WSContab">           
+        <property name="erpNomPolizaDao" ref="erpNomPolizaDao" />
+        <property name="erpNomCancelaDao" ref="erpNomCancelaDao"/>       
+        <property name="procesaPolizasNomina" ref="procesaPolizasNomina"/>  
+        <property name="validationWSContab" ref="validationWSContab"/>
+        <property name="processDao" ref="processDao"/>
+        
+    </bean>
+    
+    <bean id="wSContaElectronica" class="com.feraz.contabilidad.sat.electronica.ws.WSContaElectronica">    
+        
+        <property name="generaContaElectronica" ref="generaContaElectronica" />
+            
+        
+    </bean>
+    
+   
+    
+    <bean id="validationWSContab" class="com.feraz.contabilidad.nomina.validation.ValidationWSContab">           
+        <property name="processDao" ref="processDao"/> 	
+    </bean>
+    
+    <bean id="processDiot" class="com.feraz.contabilidad.sat.diot.controller.ProcessDiot">        
+        <property name="processDao" ref="processDao"/> 
+        <property name="detDIOTDao" ref="detDIOTDao"/> 
+        <property name="conceptosDIOTDao" ref="conceptosDIOTDao"/> 
+    </bean>
+    
+    <bean id="procesaPolizasNomina" class="com.feraz.contabilidad.ws.nomina.process.ProcesaPolizasNomina">        
+        <property name="procesosDao" ref="procesosDao"/>        
+    </bean>
+    
+    <bean id="procesosDao" class="com.feraz.procesos.dao.impl.ProcesosDaoImpl">        
+        <property name="sessionFactory" ref="sessionFactory"/>           
+    </bean>
+    
+    <bean id="erpSeguiDocumentosDao" class="com.feraz.cxp.dao.impl.ErpSeguiDocumentosDaoImpl">        
+        <property name="sessionFactory" ref="sessionFactory"/>            
+    </bean>
+    
+    <bean id="erpCClientesDao" class="com.feraz.cxp.dao.impl.ErpCClientesDaoImpl">        
+        <property name="sessionFactory" ref="sessionFactory"/>            
+    </bean>
+    
+    
+    <bean id="erpCClientesLog2Dao" class="com.feraz.cxp.dao.impl.ErpCClientesLog2DaoImpl">        
+        <property name="sessionFactory" ref="sessionFactory"/>            
+    </bean>
+    
+    
+    <bean id="erpOrdenXPedidosDao" class="com.feraz.ordencompra.dao.impl.ErpOrdenXPedidosDaoImpl">        
+        <property name="sessionFactory" ref="sessionFactory"/>            
+    </bean>
+    
+    <bean id="erpOrdenCompraDao" class="com.feraz.ordencompra.dao.impl.ErpOrdenCompraDaoImpl">        
+        <property name="sessionFactory" ref="sessionFactory"/>            
+    </bean>
+    
+    <bean id="erpOrdenCompraDetDao" class="com.feraz.ordencompra.dao.impl.ErpOrdenCompraDetDaoImpl">        
+        <property name="sessionFactory" ref="sessionFactory"/>            
+    </bean>
+    
+    <bean id="erpOrdenXFacturaDao" class="com.feraz.ordencompra.dao.impl.ErpOrdenXFacturaDaoImpl">        
+        <property name="sessionFactory" ref="sessionFactory"/>            
+    </bean>
+    
+    
+    
+    <bean id="controlOrden" class="com.feraz.ordencompra.controll.ControlOrden">        
+        <property name="erpOrdenCompraDao" ref="erpOrdenCompraDao"/> 
+        <property name="erpOrdenCompraDetDao" ref="erpOrdenCompraDetDao"/>  
+        <property name="processDao" ref="processDao"/>   
+        <property name="erpOrdenXPedidosDao" ref="erpOrdenXPedidosDao"/>  
+        <property name="mailVerificacionProv" ref="mailVerificacionProv"/>    
+        
+               
+    </bean>
+    
+    <bean id="controlDetOrden" class="com.feraz.ordencompra.controll.ControlDetOrden">        
+        <property name="erpOrdenCompraDao" ref="erpOrdenCompraDao"/> 
+        <property name="erpOrdenCompraDetDao" ref="erpOrdenCompraDetDao"/>    
+        <property name="erpOrdenXFacturaDao" ref="erpOrdenXFacturaDao"/>    
+        <property name="processDao" ref="processDao"/>   
+        <property name="erpOrdenXPedidosDao" ref="erpOrdenXPedidosDao"/>   
+         
+         
+               
+    </bean>
+    
+    
+    
+    
+        
+    <bean id="processProveedor" class="com.feraz.cxp.controll.ProcessProveedor">        
+        <property name="erpCClientesDao" ref="erpCClientesDao"/>            
+    </bean>
+    
+    <bean id="viewOrdenCompra" class="com.feraz.ordencompra.view.ViewOrdenCompra">        
+    </bean>
+    
+    
+    
+    <bean id="processServicios" class="com.feraz.cxp.controll.ProcessServicios">        
+        <property name="erpFeConceptosDao" ref="erpFeConceptosDao"/>  
+                   
+    </bean>
+    
+    <bean id="processProv" class="com.feraz.cxp.controll.ProcessProv">        
+        <property name="processDao" ref="processDao"/>  
+        <property name="erpCClientesDao" ref="erpCClientesDao"/>  
+        <property name="erpProvDireccionDao" ref="erpProvDireccionDao"/>  
+        <property name="erpProvProductosDao" ref="erpProvProductosDao"/>
+        <property name="mailVerificacion" ref="mailVerificacion"/>
+        
+        <property name="erpFamiliaProveedorDao" ref="erpFamiliaProveedorDao"/>
+        <property name="erpCClientesLog2Dao" ref="erpCClientesLog2Dao"/>
+       
+        
+        
+        
+                   
+    </bean>
+    
+    <bean id="processClientes" class="com.feraz.cxp.controll.ProcessClientes">        
+        <property name="processDao" ref="processDao"/>  
+        <property name="erpClientesDao" ref="erpClientesDao"/>  
+        
+                   
+    </bean>
+    
+    
+        
+     
+    <bean id="fileControllerGen" class="com.feraz.upload.controller.FileControllerGen">                       
+        <property name="uploadConfigDao" ref="uploadConfigDao"/>
+        <property name="uploadDao" ref="uploadDao"/>                    
+    </bean>  
+    
+    
+    <bean id="validaVersionCFDI" class="com.feraz.facturas.webcontrolfe.validation.ValidaVersionCFDI" >                       
+                 
+    </bean>    
+    
+    <bean id="fileControllerComplete" class="com.feraz.facturas.webcontrolfe.controller.FileControllerComplete" >                       
+                
+        <property name="app" ref="app"/> 
+        <property name="validaVersionCFDI" ref="validaVersionCFDI"/> 
+        <property name="processDao" ref="processDao"/> 
+         
+    </bean>  
+    
+     <bean id="uploadEstadosCta" class="com.feraz.conciliacion.controller.UploadEstadosCta" >                       
+                
+         <property name="processDao" ref="processDao"/> 
+         <property name="erpFeCargaBancoDao" ref="erpFeCargaBancoDao"/> 
+         <property name="erpEdoCuentaXErpDao" ref="erpEdoCuentaXErpDao"/>   
+         
+    </bean>  
+    
+             
+          
+    <bean id="erpFeCargaBancoDao" class="com.feraz.conciliacion.dao.impl.ErpFeCargaBancoDaoImpl">                       
+        <property name="sessionFactory" ref="sessionFactory"/>                    
+    </bean>   
+    
+    <bean id="erpEdoCuentaXErpDao" class="com.feraz.conciliacion.dao.impl.ErpEdoCuentaXErpDaoImpl">                       
+        <property name="sessionFactory" ref="sessionFactory"/>                    
+    </bean>  
+    
+    
+    
+    <bean id="uploadConfigDao" class="com.feraz.upload.dao.impl.UploadConfigDaoImpl">                       
+        <property name="sessionFactory" ref="sessionFactory"/>                    
+    </bean> 
+    
+    <bean id="uploadDao" class="com.feraz.upload.dao.impl.UploadDaoImpl">                       
+        <property name="sessionFactory" ref="sessionFactory"/>                    
+    </bean> 
+    
+    <bean id="erpSatRepAuxFolDetDao" class="com.feraz.contabilidad.sat.electronica.dao.impl.ErpSatRepAuxFolDetDaoImpl">                       
+        <property name="sessionFactory" ref="sessionFactory"/>                    
+    </bean> 
+    
+    
+    <bean id="erpCpOtrasDao" class="com.feraz.cxp.dao.impl.ErpCpOtrasDaoImpl">                       
+        <property name="sessionFactory" ref="sessionFactory"/>                    
+    </bean> 
+    
+    <bean id="erpCpOtrasDetDao" class="com.feraz.cxp.dao.impl.ErpCpOtrasDetDaoImpl">                       
+        <property name="sessionFactory" ref="sessionFactory"/>                    
+    </bean> 
+    
+    
+    <bean id="processCXPOtros" class="com.feraz.cxp.controll.ProcessCXPOtros">                       
+        <property name="erpCpOtrasDao" ref="erpCpOtrasDao"/> 
+        <property name="processDao" ref="processDao"/>     
+        <property name="erpNotasExtDao" ref="erpNotasExtDao"/>   
+        <property name="erpCpOtrasDetDao" ref="erpCpOtrasDetDao"/> 
+        <property name="erpDetImpuestosBrDao" ref="erpDetImpuestosBrDao"/> 
+        
+          
+        
+                
+    </bean> 
+    
+    <bean id="erpSatTransaccionDao" class="com.feraz.contabilidad.sat.transacciones.dao.impl.ErpSatTransaccionDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="saldosDao" class="com.feraz.contabilidad.saldos.dao.impl.SaldosDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="controllTransaccion" class="com.feraz.contabilidad.sat.transacciones.controll.ControllTransaccion">
+        <property name="processDao" ref="processDao"/> 
+        <property name="erpSatTransaccionDao" ref="erpSatTransaccionDao"/> 
+        <property name="detPolizasDao" ref="detPolizasDao"/> 
+        <property name="detPolizasXTransaccionDao" ref="detPolizasXTransaccionDao"/> 
+        
+    </bean>
+    
+    <bean id="wsContabilidad" class="com.feraz.contabilidad.ws.WSContabilidad">           
+        <property name="polizasDao" ref="polizasDao" />
+        <property name="detPolizasDao" ref="detPolizasDao"/>       
+        <property name="cuentasDao" ref="cuentasDao"/>  
+        <property name="erpSatTransaccionDao" ref="erpSatTransaccionDao"/>
+        <property name="processDao" ref="processDao"/>         
+        <property name="maestroValidation" ref="maestroValidation"/>  
+        <property name="detalleValidation" ref="detalleValidation"/> 
+        <property name="saldosDao" ref="saldosDao"/> 
+        
+    </bean>
+    
+    <bean id="wsUploadCFDI" class="com.feraz.contabilidad.ws.WSUploadCFDI">           
+        <property name="processXML" ref="processXML"/>   
+    </bean>
+    
+    <bean id="validaSAT" class="com.feraz.sat.cfdi.check.ValidaSAT">
+        
+    </bean>
+    
+    <bean id="processXML" class="com.feraz.contabilidad.ws.process.ProcessXML">
+        <property name="app" ref="app"/>
+        <property name="erpPolizasXFacturasDao" ref="erpPolizasXFacturasDao"/> 
+        <property name="processDao" ref="processDao"/>   
+        
+    </bean>
+    
+    <bean id="processValidationSAT" class="com.feraz.cfdi.controller.ProcessValidationSAT">
+        <property name="validaSAT" ref="validaSAT"/> 
+    </bean>
+    
+    <!--SAT version 13-->
+    
+    <bean id="processSAT13" class="com.feraz.contabilidad.sat.electronica.controll.ProcessSAT13">
+      <property name="generaBalanzaXML13" ref="generaBalanzaXML13"/>
+      <property name="erpSatBalanzaDao" ref="erpSatBalanzaDao"/> 
+      <property name="generaCuentasXML13" ref="generaCuentasXML13"/>
+      <property name="erpSatCatalogoDao" ref="erpSatCatalogoDao"/> 
+        <property name="erpSatCatalogoCtasDao" ref="erpSatCatalogoCtasDao"/>
+        
+        <property name="generaPolizasXML13" ref="generaPolizasXML13"/> 
+        
+         <property name="erpSatPolizaDao" ref="erpSatPolizaDao"/>
+        <property name="erpSatPolizasDao" ref="erpSatPolizasDao"/>
+        <property name="erpSatAuxiliarCtasDao" ref="erpSatAuxiliarCtasDao"/>
+        <property name="generaAuxiliarCtasXML13" ref="generaAuxiliarCtasXML13"/>
+        <property name="erpSatRepAuxFolDao" ref="erpSatRepAuxFolDao"/>
+        <property name="erpSatRepAuxFolDetDao" ref="erpSatRepAuxFolDetDao"/>
+        <property name="generaAuxiliarFoliosXML13" ref="generaAuxiliarFoliosXML13"/>
+        
+        
+                     
+    </bean>
+    
+    <!--SAT version 11-->
+    <bean id="processSAT11" class="com.feraz.contabilidad.sat.electronica.controll.ProcessSAT11">
+        <property name="generaBalanzaXML11" ref="generaBalanzaXML11"/> 
+        <property name="generaCuentasXML11" ref="generaCuentasXML11"/> 
+        <property name="erpSatBalanzaDao" ref="erpSatBalanzaDao"/> 
+        <property name="erpSatCatalogoDao" ref="erpSatCatalogoDao"/> 
+        <property name="erpSatCatalogoCtasDao" ref="erpSatCatalogoCtasDao"/>
+        <property name="generaPolizasXML11" ref="generaPolizasXML11"/> 
+        <property name="generaAuxiliarFoliosXML11" ref="generaAuxiliarFoliosXML11"/>         
+        <property name="generaAuxiliarCtasXML11" ref="generaAuxiliarCtasXML11"/>                    
+        <property name="erpSatPolizaDao" ref="erpSatPolizaDao"/>
+        <property name="erpSatPolizasDao" ref="erpSatPolizasDao"/>
+        <property name="processDao" ref="processDao"/>
+        <property name="erpSatRepAuxFolDao" ref="erpSatRepAuxFolDao"/>
+        <property name="erpSatRepAuxFolDetDao" ref="erpSatRepAuxFolDetDao"/>
+        <property name="erpSatAuxiliarCtasDao" ref="erpSatAuxiliarCtasDao"/>
+        <property name="erpSatAuxiliarCtasDetDao" ref="erpSatAuxiliarCtasDetDao"/>
+        <property name="generaAuxiliarFoliosTXML" ref="generaAuxiliarFoliosTXML"/>
+        
+        <property name="generaBalanzaXML13" ref="generaBalanzaXML13"/>
+        
+
+                     
+    </bean>
+    
+    
+    <bean id="generaPolizasXML13" class="com.feraz.contabilidad.sat.process.GeneraPolizasXML13">
+       <property name="processDao" ref="processDao"/>
+    </bean>
+    
+    <bean id="generaBalanzaXML13" class="com.feraz.contabilidad.sat.process.GeneraBalanzaXML13">
+       
+    </bean>
+    
+    <bean id="generaBalanzaXML11" class="com.feraz.contabilidad.sat.process.GeneraBalanzaXML11">
+       
+    </bean>
+    <bean id="generaCuentasXML11" class="com.feraz.contabilidad.sat.process.GeneraCuentasXML11">
+       
+    </bean>
+    <bean id="generaCuentasXML13" class="com.feraz.contabilidad.sat.process.GeneraCuentasXML13">
+       
+    </bean>
+    
+    <bean id="generaPolizasXML11" class="com.feraz.contabilidad.sat.process.GeneraPolizasXML11">
+        
+        <property name="processDao" ref="processDao"/>
+       
+    </bean>
+    
+    <bean id="generaAuxiliarFoliosXML11" class="com.feraz.contabilidad.sat.process.GeneraAuxiliarFoliosXML11">
+        <property name="processDao" ref="processDao"/>
+    </bean>
+    
+    <bean id="generaAuxiliarFoliosXML13" class="com.feraz.contabilidad.sat.process.GeneraAuxiliarFoliosXML13">
+        <property name="processDao" ref="processDao"/>
+    </bean>
+    
+    
+    <bean id="generaAuxiliarFoliosTXML" class="com.feraz.contabilidad.sat.process.GeneraAuxiliarFoliosTXML">
+        <property name="processDao" ref="processDao"/>
+    </bean>
+    
+    
+    
+    <bean id="generaAuxiliarCtasXML11" class="com.feraz.contabilidad.sat.process.GeneraAuxiliarCtasXML11">
+       <property name="processDao" ref="processDao"/>
+       <property name="erpSatAuxiliarCtasDetDao" ref="erpSatAuxiliarCtasDetDao"/>
+    </bean>
+    
+    <bean id="generaAuxiliarCtasXML13" class="com.feraz.contabilidad.sat.process.GeneraAuxiliarCtasXML13">
+       <property name="processDao" ref="processDao"/>
+       <property name="erpSatAuxiliarCtasDetDao" ref="erpSatAuxiliarCtasDetDao"/>
+    </bean>
+    
+    
+    <bean id="validateCFDI" class="com.feraz.contabilidad.sat.electronica.controll.ValidateCFDI">
+        <property name="erpFeComprobantesDao" ref="erpFeComprobantesDao"/>
+        <property name="processDao" ref="processDao"/>
+        
+    </bean>
+    
+    <bean id="erpClientesDao" class="com.feraz.cxp.dao.impl.ErpClientesDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <!--SAT version 11-->
+    
+    <bean id="controllLoginPortal" class="com.feraz.portal.controll.ControllLoginPortal">
+        <property name="erpCClientesDao" ref="erpCClientesDao"/>
+    </bean>
+
+
+    <bean id="otrasArchivosDao" class="com.feraz.polizas3.dao.impl.OtrasArchivosDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="erpCxpOrdenCompraLogDao" class="com.feraz.cxp.dao.impl.ErpCxpOrdenCompraLogDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+</beans>
