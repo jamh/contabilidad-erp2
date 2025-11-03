@@ -86,8 +86,19 @@ public class ProcessPolizas {
             return rq;
         }
 
-        data = data.replaceAll("\\[", "");
-        data = data.replaceAll("\\]", "");
+        //data = data.replaceAll("\\[", "");
+        //data = data.replaceAll("\\]", "");
+        
+          data=data.replaceAll("&", "");
+        int index = data.indexOf("[");
+      
+        
+        if(index == -1){
+            
+            data = "["+data+"]";
+//            System.out.println("data2" + data);
+        }
+         System.out.println("data23:" + data);
         
          PolizasDTO polDto= new PolizasDTO();
 //        validateEmpleado.setCompania(model.asMap().get("compania").toString());
@@ -100,36 +111,61 @@ public class ProcessPolizas {
 //            rq.setMsg("Error al Guardar Empleado :" + validateEmpleado.getMsgErr());
 //            return rq;
 //        }
-        Polizas poliza = null;
+        Polizas poliza = new Polizas();
         try {
             ObjectMapper mapper = new ObjectMapper();
             DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
             mapper.setDateFormat(df);
+         
+            
+        List<PolizasDTO> listaPoliza = mapper.readValue(data,
+                    mapper.getTypeFactory().constructCollectionType(List.class,
+                            PolizasDTO.class));
+        Iterator<PolizasDTO> it = listaPoliza.iterator();
+        
+        while(it.hasNext()){
+                
+//                System.out.println("dentro de while");
+                PolizasDTO ss = it.next();
+                // String idTime = ""+System.currentTimeMillis();
+               SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd/MM/yyyy");
+                 String strFecha = ss.getFecha();
+                    Date fecha = null;
+                 //Obtener maxima secuencia
+                    fecha = formatoDelTexto.parse(strFecha);
+                    
+                   
+                     System.out.println("fecha:"+fecha);
 
-            poliza = mapper.readValue(data, Polizas.class);
+            //poliza = mapper.readValue(data, Polizas.class);
             poliza.setCompaniaTemp(compania);
             poliza.setUsuario(usuario);
 //            System.out.println("date:"+poliza.getFechaTemp());
-            PolizasId id = new PolizasId(poliza.getCompaniaTemp(), poliza.getTipoPolizaTemp(), poliza.getFechaTemp(), poliza.getNumeroTemp());
+            PolizasId id = new PolizasId(compania, ss.getTipoPoliza(), fecha, ss.getNumero());
             poliza.setId(id);
-            if(poliza.getAbonos()==null || poliza.getCargos() == null){
             poliza.setAbonos(BigDecimal.ZERO);
             poliza.setAbonosBase(BigDecimal.ZERO);
             poliza.setCargos(BigDecimal.ZERO);
             poliza.setCargosBase(BigDecimal.ZERO);
-            }
+            poliza.setDivisa(ss.getDivisa());
+            poliza.setEstatus(new BigDecimal(0));
+            poliza.setFuente(ss.getFuente());
+            poliza.setNombre(ss.getNombre());
+            poliza.setParidad(new BigDecimal(1));
+            poliza.setReferencia(ss.getReferencia());
+            
             poliza.setFechaCap(new Date());
             poliza.setHora(""+System.currentTimeMillis());
             
             
-            if(poliza.getTipoSolicitud().equalsIgnoreCase("")||poliza.getTipoSolicitud() == null ){
+            if(ss.getTipoSolicitud().equalsIgnoreCase("")||ss.getTipoSolicitud() == null ){
                 
             }else{
-             int claveTipoS =  poliza.getTipoSolicitud().indexOf("-");
+             int claveTipoS =  ss.getTipoSolicitud().indexOf("-");
              
-             String tipoSolicitud = poliza.getTipoSolicitud();
+             String tipoSolicitud = ss.getTipoSolicitud();
                 
-             String claveTipoSC = poliza.getTipoSolicitud().substring(0,claveTipoS);
+             String claveTipoSC = ss.getTipoSolicitud().substring(0,claveTipoS);
                 
              poliza.setTipoSolicitud(claveTipoSC);
              polDto.setTipoSolicitud(tipoSolicitud);
@@ -217,6 +253,7 @@ public class ProcessPolizas {
                 rq.setData(null);
                 rq.setMsg("data null");
             }
+        }
 
         } catch (Exception e) {
             isSave = false;

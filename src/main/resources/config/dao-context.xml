@@ -188,6 +188,10 @@
     </bean>
     
     
+    <bean id="erpFeOtroPagoDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeOtroPagoDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
     <bean id="erpFeTrasLocalesDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeTrasLocalesDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
@@ -706,6 +710,7 @@
          <property name="erpFeTrasladoComplDao" ref="erpFeTrasladoComplDao"/>
          <property name="erpFeImpLocalesDao" ref="erpFeImpLocalesDao"/>
          <property name="erpFeTrasLocalesDao" ref="erpFeTrasLocalesDao"/>
+         <property name="erpFeOtroPagoDao" ref="erpFeOtroPagoDao"/>
 
          
    

@@ -45,6 +45,7 @@ import com.feraz.facturas.webcontrolfe.dao1.ErpFeTrasladoComplDao;
 import com.feraz.facturas.webcontrolfe.dao1.ErpFeNominaDao;
 import com.feraz.facturas.webcontrolfe.dao1.ErpFeNominaEmisorDao;
 import com.feraz.facturas.webcontrolfe.dao1.ErpFeNominaReceptorDao;
+import com.feraz.facturas.webcontrolfe.dao1.ErpFeOtroPagoDao;
 import com.feraz.facturas.webcontrolfe.dao1.ErpFePagosDao;
 import com.feraz.facturas.webcontrolfe.dao1.ErpFePercepcionDao;
 import com.feraz.facturas.webcontrolfe.dao1.ErpFePercepcionesDao;
@@ -71,6 +72,8 @@ import com.feraz.facturas.webcontrolfe.model.ErpFeNominaEmisorId;
 import com.feraz.facturas.webcontrolfe.model.ErpFeNominaId;
 import com.feraz.facturas.webcontrolfe.model.ErpFeNominaReceptor;
 import com.feraz.facturas.webcontrolfe.model.ErpFeNominaReceptorId;
+import com.feraz.facturas.webcontrolfe.model.ErpFeOtroPagoId;
+import com.feraz.facturas.webcontrolfe.model.ErpFeOtroPago;
 import com.feraz.facturas.webcontrolfe.model.ErpFePagos;
 import com.feraz.facturas.webcontrolfe.model.ErpFePagosId;
 import com.feraz.facturas.webcontrolfe.model.ErpFePercepcion;
@@ -150,6 +153,7 @@ public class App {
     private ErpFeTrasladoComplDao erpFeTrasladoComplDao;
     private ErpFeImpLocalesDao erpFeImpLocalesDao;
     private ErpFeTrasLocalesDao erpFeTrasLocalesDao;
+    private ErpFeOtroPagoDao erpFeOtroPagoDao;
 
     public App() {
     }
@@ -3727,6 +3731,8 @@ public class App {
                         ErpFePercepcionId perId = new ErpFePercepcionId();
                         ErpFeDeduccion ded = new ErpFeDeduccion();
                         ErpFeDeduccionId dedId = new ErpFeDeduccionId();
+                        ErpFeOtroPagoId otroPagoId = new ErpFeOtroPagoId();
+                        ErpFeOtroPago otroPago = new ErpFeOtroPago();
 
                         nomId.setCompania(id.getCompania());
                         nomId.setNumero(id.getNumero());
@@ -3860,6 +3866,34 @@ public class App {
                                     }
 
                                 }
+                                
+                                
+                                if (im.getChildNodes().item(w).getNodeName().equalsIgnoreCase("nomina12:OtrosPagos")) {
+
+                                   
+
+                                    for (int z = 0; im.getChildNodes().item(w).getChildNodes().getLength() - 1 >= z; z++) {
+
+                                        org.apache.xerces.dom.AttributeMap mapP = (AttributeMap) im.getChildNodes().item(w).getChildNodes().item(z).getAttributes();
+                                        System.out.println("-------otros pagos nominas---------");
+
+                                        otroPagoId.setCompania(id.getCompania());
+                                        otroPagoId.setNumero(id.getNumero());
+                                        int idOtroPago = erpFeOtroPagoDao.getMaxIdErpFeOtroPago(otroPagoId);
+                                        otroPagoId.setSec(idOtroPago);
+                                        otroPago.setId(otroPagoId);
+                                        otroPago.setConcepto(mapP.getNamedItem("Concepto").getNodeValue());
+                                        otroPago.setClave(mapP.getNamedItem("Clave").getNodeValue());
+                                        otroPago.setImporte(new BigDecimal(mapP.getNamedItem("Importe").getNodeValue()));
+                                        otroPago.setTipoOtroPago(mapP.getNamedItem("TipoOtroPago").getNodeValue());
+                                       
+
+                                        erpFeOtroPagoDao.save(otroPago);
+
+                                    }
+
+                                }
+                                
 
                             }
                         }
@@ -4622,5 +4656,11 @@ public class App {
     public void setErpFeTrasLocalesDao(ErpFeTrasLocalesDao erpFeTrasLocalesDao) {
         this.erpFeTrasLocalesDao = erpFeTrasLocalesDao;
     }
+
+    public void setErpFeOtroPagoDao(ErpFeOtroPagoDao erpFeOtroPagoDao) {
+        this.erpFeOtroPagoDao = erpFeOtroPagoDao;
+    }
+    
+    
 
 }
