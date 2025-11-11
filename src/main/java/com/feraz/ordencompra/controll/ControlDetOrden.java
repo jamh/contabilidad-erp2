@@ -436,7 +436,7 @@ public class ControlDetOrden {
           ordenDet.setDescuento(new BigDecimal(0));
         }
         
-        if (!ss.descuento2.equalsIgnoreCase("")) {
+        if (ss.descuento2 != null) {
           ordenDet.setDescuento2(new BigDecimal(ss.descuento2));
         } else {
           ordenDet.setDescuento2(new BigDecimal(0));

@@ -8,17 +8,24 @@ package com.feraz.facturas.webcontrolfe.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.feraz.contabilidad.convertidor.util.ResponseComprobante;
+import com.feraz.contabilidad.convertidor.util.ResponseQuery3;
 import com.feraz.facturas.webcontrolfe.App.App;
 import com.feraz.facturas.webcontrolfe.dao1.ErpFeXMLDao;
 import com.feraz.facturas.webcontrolfe.dto.CargaCfdiDTO;
 import com.feraz.facturas.webcontrolfe.dto.DirectoryDto;
+import com.feraz.facturas.webcontrolfe.dto.FileInfo;
 import com.feraz.facturas.webcontrolfe.dto.PolizasInfo;
 import com.feraz.facturas.webcontrolfe.model.ErpFeXML;
+import com.feraz.facturas.webcontrolfe.model.FileUploadBean;
+import com.feraz.facturas.webcontrolfe.model.FileUploadBean2;
 import com.feraz.facturas.webcontrolfe.procesa.CargaFacturas;
 import com.feraz.facturas.webcontrolfe.validation.ValidaVersionCFDI;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -42,6 +49,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,6 +58,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -66,6 +76,17 @@ public class DirectoryController {
     private String dirUrlOutDocument;
     @Value("${document.file.maxZise}")
     private String maxSizeDocument;
+    
+       private String msgErr;
+    private String extension = "";
+    private String nombreArc = "";
+    private String path;
+    private String path2;
+    private String pathXML;
+    private String url;
+    private String dirCompania;
+    private File file;
+    private String hora;
     
     private CargaFacturas cargaFacturas;
     
@@ -650,6 +671,227 @@ public class DirectoryController {
     }
     
     
+    @RequestMapping(value = "/cargacfdisatfile2", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseQuery3 create(
+            FileUploadBean file,
+           @RequestParam("dirxml") String dirxml,
+           @RequestParam("compania") String compania,
+           @RequestParam("usuario") String usuario,
+            WebRequest webRequest,
+            Model model) throws IOException {
+        
+        System.out.println("LLegando a crear archivos");
+         hora = "" + System.currentTimeMillis();
+
+        boolean isSave = true;
+        SimpleDateFormat formatoDelTexto2 = new SimpleDateFormat("dd/MM/yyyy");
+
+        ResponseQuery3 rq = new ResponseQuery3();
+
+
+        //String compania = model.asMap().get("compania").toString();
+        // String usuario = model.asMap().get("usuario").toString();
+        try{ 
+                dirCompania = compania;
+                FileInfo fi;
+
+                 boolean result1 = validaVersionCFDI.verision32File(file.getFile());
+                 boolean result2 = validaVersionCFDI.version33File(file.getFile());
+                 boolean result4 = validaVersionCFDI.version4File(file.getFile());
+
+                 System.out.println("result1: " +result1);
+                 System.out.println("result2: " +result2);
+
+
+                String dirFecha = "";
+
+
+
+
+                if(!result2 && !result4 && result1){
+
+                       dirFecha = app.validaFechaComprobante(file.getFile(), dirOutFileDocument, compania);
+                }
+
+                if(result2 && !result4 && !result1){
+
+                       dirFecha = app.validaFechaComprobante33(file.getFile(), dirOutFileDocument, compania);
+
+                }
+
+                if(!result2 && result4 && !result1){
+
+                    dirFecha = app.validaFechaComprobante4(file.getFile(), dirOutFileDocument, compania);
+
+
+                }
+
+
+
+
+                if (dirFecha.equalsIgnoreCase("")){
+
+                        fi = generaArchivos(file.getFile(), 1);
+
+                        if (!fi.isIsSave()) {
+                            rq.setMsg("Error al guardar archivo XML:" + msgErr);
+                            rq.setSuccess(false);
+                            return rq;
+                        }
+                     
+
+                }else{
+
+
+                    String nombreUuid = "";
+                    
+                    
+
+
+                    if(!result2 && !result4 && result1){
+
+                      nombreUuid = app.validaNombreUUidComprobante(file.getFile(), dirOutFileDocument, compania);
+
+                    }
+
+                    if(result2 && !result4 && !result1){
+
+                        nombreUuid = app.validaNombreUUidComprobante33(file.getFile(), dirOutFileDocument, compania);
+
+
+                    }
+
+                    if(!result2 && result4 && !result1){
+
+                         nombreUuid = app.validaNombreUUidComprobante4(file.getFile(), dirOutFileDocument, compania);
+
+                    }
+                    System.out.println("nombreUuid: "+nombreUuid);
+
+                       fi = generaArchivos2(file.getFile(), 1,dirFecha,nombreUuid);
+
+                        if (!fi.isIsSave()) {
+                            rq.setMsg("Error al guardar archivo XML:" + msgErr);
+                            rq.setSuccess(false);
+                            return rq;
+                        }
+                  
+
+                }
+                 System.out.println("Archivo Generado");
+
+
+               
+                String idErr = "" + System.currentTimeMillis();
+                app.setId(idErr);
+                System.out.println("VALIDANDO COMP");
+                PolizasInfo valida;
+
+
+                   if(!result2 && !result4 && result1){
+
+                        valida = app.validaComprobante(compania, pathXML, fi.getFile(), fi.getPath());
+
+                    }else{
+
+                       if(result2 && !result4 && !result1){
+
+                        valida = app.validaComprobante33(compania, pathXML, fi.getFile(), fi.getPath());
+
+
+                        }else{
+
+                           if(!result2 && result4 && !result1){
+
+                                valida = app.validaComprobante4(compania, pathXML, fi.getFile(), fi.getPath());
+
+                           }else{
+
+                               valida = app.validaComprobante33(compania, pathXML, fi.getFile(), fi.getPath());
+
+                           }
+
+
+                        }
+
+                    }
+                 System.out.println("valida:"+valida.getInfTipo());
+                 System.out.println("validaErr:"+valida.getMsgErr());
+                if (valida.getInfTipo() == 1) {
+                    String va = "";
+                    if (app.getRelacion() != null) {
+                        va = app.getRelacion().getId().getNumeroPol() + "-" + app.getRelacion().getId().getTipoPol();
+                    }
+                    rq.setNumero(valida.getNumero());
+                    rq.setTipoPoliza(valida.getTipoPoliza());
+                    rq.setFecha(valida.getFecha());
+                    //  String poliza = app.getRelacion().
+                    rq.setSuccess(false);
+                    rq.setMsg(valida.getMsgErr());
+                    return rq;
+                } else if (valida.getInfTipo() == 2) {
+                    rq.setSuccess(false);
+                    rq.setMsg(valida.getMsgErr());
+                    return rq;
+                } else if (valida.getInfTipo() == 3) {
+                    rq.setSuccess(true);
+                    rq.setMsg(valida.getMsgErr());
+                    rq.setNumeroFe("" + valida.getNumeroFe());
+                    return rq;
+                }
+                System.out.println("Carga Comprbante");
+
+                //app.setNombrePdf(fi.getFile());
+                //app.setPathPdf(fi2.getPath());
+                app.setUsuario(usuario);
+                app.setTipoCarga("1");
+                int data = 0;
+
+
+
+                 if(!result2 && !result4 && result1){
+
+                      data = app.cargaComprobante(pathXML, compania, usuario, null, "cfdi");
+
+                    }
+
+                    if(result2 && !result4 && !result1){
+
+                        data = app.cargaComprobante33(pathXML, compania, usuario, null, "cfdi");
+
+
+                    }
+
+                    if(!result2 && result4 && !result1){
+
+                         data = app.cargaComprobante4(pathXML, compania, usuario, null, "cfdi");
+
+                    }
+                if (data >= 1) {
+
+                    rq.setSuccess(true);
+                    rq.setMsg(Integer.toString(data));
+
+                    return rq;
+                } else {
+                    rq.setSuccess(false);
+                    rq.setMsg(idErr);
+
+                    return rq;
+                }
+         } catch (Exception e) {
+             
+             e.printStackTrace();
+              return null;
+            }
+
+        
+        
+    }
+    
+    
+    
        @RequestMapping(value = "/cargacfdisatfile/xml/{comp}/{user}/{rfc}/{origen}/{uuid}", method = RequestMethod.GET)
     public @ResponseBody
     List<CargaCfdiDTO> cargacfdisatdir(@PathVariable("comp") String compania,@PathVariable("user") String usuario,
@@ -781,6 +1023,7 @@ public class DirectoryController {
                                     
                                     
                                     } else {
+                                        
                                        
                                         int data = app.cargaComprobante4(dir, compania, usuario, null, "cfdi");
 
@@ -874,6 +1117,89 @@ public class DirectoryController {
             return arr_res;
         }
     
+    
+    public FileInfo generaArchivos(MultipartFile uploadItem, int tipo) {
+        String fileName = null;
+        String nombreArchivo = "";
+
+        //  ExtJSFormResult rq = new ExtJSFormResult();
+        try {
+
+            MultipartFile file = uploadItem;
+            FileInfo fi = new FileInfo();
+
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+            if (file.getSize() > 0) {
+                inputStream = file.getInputStream();
+                long maxSize = new Long(maxSizeDocument);
+                if (file.getSize() > maxSize) {
+                    msgErr = "Tamaño no valido";
+                    //System.out.println("File Size:::" + file.getSize());
+                    // isSave = false;
+//                    rq.setMsg("Tamaño no valido");
+//                    rq.setSuccess(isSave);
+                    fi.setIsSave(false);
+                    return fi;
+                }
+
+                int i = file.getOriginalFilename().lastIndexOf('.');
+               // String hora = "" + System.currentTimeMillis();
+//                System.out.println("Nombre:" + file.getOriginalFilename());
+                extension = file.getOriginalFilename().substring(i + 1);
+                nombreArc = file.getOriginalFilename().substring(0, i);
+                fi.setFile(nombreArc + hora + "." + extension);
+//                System.out.println("i:" + i);
+//                System.out.println("exte:" + extension);
+//                System.out.println("nombreArc:" + nombreArc);
+//                System.out.println("exte:" + extension);
+                if (tipo == 1 && !extension.toLowerCase().trim().equals("xml")) {
+
+                    msgErr = "Archivo xml no valido";
+
+                    fi.setIsSave(false);
+                    return fi;
+                }
+                if (tipo == 2 && !extension.toLowerCase().trim().equals("pdf")) {
+
+                    msgErr = "Archivo pdf no valido";
+
+                    fi.setIsSave(false);
+                    return fi;
+                }
+
+                path = dirOutFileDocument + dirCompania + "/" + nombreArc + hora + "." + extension;
+                fi.setPath(path);
+                if (tipo == 1) {
+                    pathXML = path;
+                }
+
+                url = dirUrlOutDocument + nombreArc + hora + "." + extension;
+                fi.setUrl(url);
+
+                revisarDirectorio2();
+                outputStream = new FileOutputStream(path);
+
+                int readBytes = 0;
+                byte[] buffer = new byte[10000];
+                while ((readBytes = inputStream.read(buffer, 0, 10000)) != -1) {
+                    outputStream.write(buffer, 0, readBytes);
+                }
+                outputStream.close();
+                inputStream.close();
+            }
+
+            fi.setIsSave(true);
+            return fi;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            FileInfo fi = new FileInfo();
+            fi.setIsSave(false);
+            return fi;
+        }
+    }
+    
      public void revisarDirectorio(String dirCompania) {
 
         File file = new File(dirCompania + "/");
@@ -883,6 +1209,104 @@ public class DirectoryController {
                 //   System.out.println("Directory is created!");
             } else {
                 //   System.out.println("Failed to create directory!");
+            }
+        }
+
+    }
+     
+      public FileInfo generaArchivos2(MultipartFile uploadItem, int tipo,String pathArch, String nombreUuid) {
+        String fileName = null;
+        String nombreArchivo = "";
+        
+        //System.out.println("Guardando en genera 2");
+        
+        //  ExtJSFormResult rq = new ExtJSFormResult();
+        try {
+
+            MultipartFile file = uploadItem;
+            FileInfo fi = new FileInfo();
+
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+            if (file.getSize() > 0) {
+                inputStream = file.getInputStream();
+                long maxSize = new Long(maxSizeDocument);
+                if (file.getSize() > maxSize) {
+                    msgErr = "Tamaño no valido";
+                    //System.out.println("File Size:::" + file.getSize());
+                    // isSave = false;
+//                    rq.setMsg("Tamaño no valido");
+//                    rq.setSuccess(isSave);
+                    fi.setIsSave(false);
+                    return fi;
+                }
+
+                int i = file.getOriginalFilename().lastIndexOf('.');
+               // String hora = "" + System.currentTimeMillis();
+//                System.out.println("Nombre:" + file.getOriginalFilename());
+                extension = file.getOriginalFilename().substring(i + 1);
+                nombreArc = file.getOriginalFilename().substring(0, i);
+                fi.setFile(nombreUuid + "." + extension);
+//                System.out.println("i:" + i);
+//                System.out.println("exte:" + extension);
+//                System.out.println("nombreArc:" + nombreArc);
+//                System.out.println("exte:" + extension);
+                if (tipo == 1 && !extension.toLowerCase().trim().equals("xml")) {
+
+                    msgErr = "Archivo xml no valido";
+
+                    fi.setIsSave(false);
+                    return fi;
+                }
+                if (tipo == 2 && !extension.toLowerCase().trim().equals("pdf")) {
+
+                    msgErr = "Archivo pdf no valido";
+
+                    fi.setIsSave(false);
+                    return fi;
+                }
+
+                path = pathArch + "/"+nombreUuid+  "." + extension;
+                fi.setPath(path);
+                if (tipo == 1) {
+                    pathXML = path;
+                }
+
+                url =  pathArch + "/"+nombreUuid+  "." + extension;
+                fi.setUrl(url);
+
+                //revisarDirectorio();
+                outputStream = new FileOutputStream(path);
+
+                int readBytes = 0;
+                byte[] buffer = new byte[10000];
+                while ((readBytes = inputStream.read(buffer, 0, 10000)) != -1) {
+                    outputStream.write(buffer, 0, readBytes);
+                }
+                outputStream.close();
+                inputStream.close();
+            }
+
+            fi.setIsSave(true);
+            return fi;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            FileInfo fi = new FileInfo();
+            fi.setIsSave(false);
+            return fi;
+        }
+    }
+     
+     public void revisarDirectorio2() {
+
+        File file = new File(dirOutFileDocument + dirCompania + "/");
+//        System.out.println("Directory" + dirOutFileDocument + dirCompania + "/");
+        if (!file.exists()) {
+            if (file.mkdirs()) {
+//                System.out.println("Directory is created!");
+            } else {
+//                System.out.println("Failed to create directory!");
             }
         }
 

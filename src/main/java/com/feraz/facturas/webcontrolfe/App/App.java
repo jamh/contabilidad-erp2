@@ -661,14 +661,27 @@ public class App {
 
             String uuid = "";
 
+       
+            
             if (comp.getComplemento().getAny().iterator().hasNext()) {
                 for (int j = 1; comp.getComplemento().getAny().size() >= j; j++) {
 
                     System.out.println(comp.getComplemento().getAny().get(j - 1).getClass());
+                    System.out.println(comp.getComplemento().getAny().get(j - 1));
 
                     org.apache.xerces.dom.ElementNSImpl im = (ElementNSImpl) comp.getComplemento().getAny().get(j - 1);
 
-                    uuid = im.getAttribute("UUID");
+                    System.out.println(im);
+                    System.out.println(im.getClass());
+                    System.out.println(im.getAttributes().getLength());
+                    System.out.println(im.getSchemaTypeInfo().getClass());
+                    System.out.println(im.getNodeName());
+
+                    if (im.getNodeName().equalsIgnoreCase("tfd:TimbreFiscalDigital")) {
+
+                        uuid = im.getAttribute("UUID");
+
+                    }
 
                 }
 
@@ -704,7 +717,7 @@ public class App {
                     return pi;
                 } else {
                     pi.setInfTipo(1);
-                    pi.setMsgErr("Error en el XML ya tiene poliza:" + erpPolizasXFacturas.getId().getNumeroPol() + "-" + erpPolizasXFacturas.getId().getTipoPol());
+                    pi.setMsgErr("Error el XML ya existe y cuenta con la poliza:" + erpPolizasXFacturas.getId().getNumeroPol() + "-" + erpPolizasXFacturas.getId().getTipoPol());
                     pi.setTipoPoliza(erpPolizasXFacturas.getId().getTipoPol());
                     pi.setNumero(erpPolizasXFacturas.getId().getNumeroPol());
                     DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
