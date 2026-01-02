@@ -82,6 +82,10 @@ public class ErpFeConceptos implements java.io.Serializable {
     @JsonProperty("DESCUENTO")
     private BigDecimal descuento;
     
+    @Column (name = "OBJETOIMP")
+    @JsonProperty("OBJETOIMP")
+    private String objetoimp;
+    
       public ErpFeConceptos(){
        }
     
@@ -179,6 +183,14 @@ public class ErpFeConceptos implements java.io.Serializable {
 
     public void setDescuento(BigDecimal descuento) {
         this.descuento = descuento;
+    }
+
+    public String getObjetoimp() {
+        return objetoimp;
+    }
+
+    public void setObjetoimp(String objetoimp) {
+        this.objetoimp = objetoimp;
     }
         
      

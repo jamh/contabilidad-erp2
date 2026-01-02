@@ -3987,6 +3987,7 @@ public class App {
                     conceptos.setValorUnitario(con.getValorUnitario());
                     conceptos.setClaveUnidad(con.getClaveUnidad());
                     conceptos.setClaveProdServ(con.getClaveProdServ());
+                    conceptos.setObjetoimp(con.getObjetoImp());
 
                     System.out.println("buscando descuento por concepto...");
 
