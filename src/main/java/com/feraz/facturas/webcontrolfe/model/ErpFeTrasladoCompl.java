@@ -33,16 +33,19 @@ public class ErpFeTrasladoCompl implements java.io.Serializable {
     
     private ErpFeTrasladoComplId id;
     
-    @Column(name = "IMPUESTO")
+    @Column(name = "BASEP")
+    private BigDecimal baseP;
+    
+    @Column(name = "IMPUESTOP")
     private String impuesto;
     
-    @Column(name = "TIPO_FACTOR")
+    @Column(name = "TIPO_FACTORP")
     private String tipoFactor;
     
-    @Column(name = "TASA_O_CUOTA")
+    @Column(name = "TASA_O_CUOTAP")
     private BigDecimal tasaCuota;
     
-    @Column(name = "IMPORTE")
+    @Column(name = "IMPORTEP")
     private BigDecimal importe;
     
     public ErpFeTrasladoCompl(){
@@ -92,6 +95,16 @@ public class ErpFeTrasladoCompl implements java.io.Serializable {
     public void setImporte(BigDecimal importe) {
         this.importe = importe;
     }
+
+    public BigDecimal getBaseP() {
+        return baseP;
+    }
+
+    public void setBaseP(BigDecimal baseP) {
+        this.baseP = baseP;
+    }
+
+    
     
     
     

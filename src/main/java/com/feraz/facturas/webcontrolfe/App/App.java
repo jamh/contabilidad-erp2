@@ -49,7 +49,9 @@ import com.feraz.facturas.webcontrolfe.dao1.ErpFeOtroPagoDao;
 import com.feraz.facturas.webcontrolfe.dao1.ErpFePagosDao;
 import com.feraz.facturas.webcontrolfe.dao1.ErpFePercepcionDao;
 import com.feraz.facturas.webcontrolfe.dao1.ErpFePercepcionesDao;
+import com.feraz.facturas.webcontrolfe.dao1.ErpFeRetencionDrDao;
 import com.feraz.facturas.webcontrolfe.dao1.ErpFeTrasLocalesDao;
+import com.feraz.facturas.webcontrolfe.dao1.ErpFeTrasladoDrDao;
 import com.feraz.facturas.webcontrolfe.dto.VallidaCfidDTO;
 import com.feraz.facturas.webcontrolfe.dto.VallidaRespDTO;
 import com.feraz.facturas.webcontrolfe.model.ErpFeConceptoXRetencion;
@@ -82,10 +84,14 @@ import com.feraz.facturas.webcontrolfe.model.ErpFePercepciones;
 import com.feraz.facturas.webcontrolfe.model.ErpFePercepcionesId;
 import com.feraz.facturas.webcontrolfe.model.ErpFeRetencionCompl;
 import com.feraz.facturas.webcontrolfe.model.ErpFeRetencionComplId;
+import com.feraz.facturas.webcontrolfe.model.ErpFeRetencionDrId;
+import com.feraz.facturas.webcontrolfe.model.ErpFeRetencionDr;
 import com.feraz.facturas.webcontrolfe.model.ErpFeTrasLocales;
 import com.feraz.facturas.webcontrolfe.model.ErpFeTrasLocalesId;
 import com.feraz.facturas.webcontrolfe.model.ErpFeTrasladoCompl;
 import com.feraz.facturas.webcontrolfe.model.ErpFeTrasladoComplId;
+import com.feraz.facturas.webcontrolfe.model.ErpFeTrasladoDrId;
+import com.feraz.facturas.webcontrolfe.model.ErpFeTrasladoDr;
 import com.feraz.mx.sat.cfdi.CTipoDeComprobante;
 import com.feraz.mx.sat.cfdi4.Comprobante4;
 import java.io.File;
@@ -154,6 +160,8 @@ public class App {
     private ErpFeImpLocalesDao erpFeImpLocalesDao;
     private ErpFeTrasLocalesDao erpFeTrasLocalesDao;
     private ErpFeOtroPagoDao erpFeOtroPagoDao;
+    private ErpFeTrasladoDrDao erpFeTrasladoDrDao;
+    private ErpFeRetencionDrDao erpFeRetencionDrDao;
 
     public App() {
     }
@@ -3433,6 +3441,13 @@ public class App {
 
                         ErpFeTrasladoCompl trasCompl = new ErpFeTrasladoCompl();
                         ErpFeTrasladoComplId trasComplId = new ErpFeTrasladoComplId();
+                        
+                        ErpFeRetencionDr retencionDr = new ErpFeRetencionDr();
+                        ErpFeRetencionDrId retencionDrId = new ErpFeRetencionDrId();
+                        
+                        ErpFeTrasladoDr trasladoDr = new ErpFeTrasladoDr();
+                        ErpFeTrasladoDrId trasladoDrId = new ErpFeTrasladoDrId();
+                        
 
                         if (im.getChildNodes().getLength() > 0) {
 
@@ -3567,87 +3582,178 @@ public class App {
                                                 }
 
                                                 erpFeDocRelacionadoDao.save(docRelacionado);
+                                                
+                                                for (int t = 0; im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().getLength() - 1 >= t; t++) {
+
+                                                org.apache.xerces.dom.AttributeMap mapT = (AttributeMap) im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(t).getAttributes();
+
+                                                if (mapT != null) {
+
+                                                    if (im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(t).getNodeName().equalsIgnoreCase("pago20:ImpuestosDR")) {
+                                                
+
+                                                        System.out.println("-------Impuestos Complemento DR---------");
+
+                                                        for (int a = 0; im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(t).getChildNodes().getLength() - 1 >= a; a++) {
+
+                                                            org.apache.xerces.dom.AttributeMap mapA = (AttributeMap) im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(t).getChildNodes().item(a).getAttributes();
+
+                                                            if (im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(t).getChildNodes().item(a).getNodeName().equalsIgnoreCase("pago20:RetencionesDR")) {
+                                                                
+                                                                System.out.println("-------Impuestos RETENCIONES DR---------");
+
+                                                                for (int b = 0; im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(t).getChildNodes().item(a).getChildNodes().getLength() - 1 >= b; b++) {
+                                                                    
+                                                                    if (im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(t).getChildNodes().item(a).getChildNodes().item(b).getNodeName().equalsIgnoreCase("pago20:RetencionDR")) {
+                                                                        
+                                                                        System.out.println("-------Impuestos nodo RETENCION DR---------");
+
+                                                                    org.apache.xerces.dom.AttributeMap mapRetDr = (AttributeMap) im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(t).getChildNodes().item(a).getChildNodes().item(b).getAttributes();
+
+                                                                    if (mapRetDr != null) {
+
+                                                                        retencionDrId.setCompania(id.getCompania());
+                                                                        retencionDrId.setNumero(id.getNumero());
+                                                                        retencionDrId.setIdPago(pagoSec);
+                                                                        retencionDrId.setIdDocRel(idDocRel);
+
+                                                                        int idSecRetDr = erpFeRetencionDrDao.getMaxIdfindErpFeRetencionDr(retencionDrId);
+
+                                                                        retencionDrId.setId(idSecRetDr);
+                                                                        retencionDr.setId(retencionDrId);
+                                                                        retencionDr.setImporteDr(new BigDecimal(mapRetDr.getNamedItem("ImporteDR").getNodeValue()));
+                                                                        retencionDr.setImpuestoDr(mapRetDr.getNamedItem("ImpuestoDR").getNodeValue());
+                                                                        retencionDr.setBaseDr(new BigDecimal(mapRetDr.getNamedItem("BaseDR").getNodeValue()));
+                                                                        retencionDr.setTasaCuotaDr(new BigDecimal(mapRetDr.getNamedItem("TasaOCuotaDR").getNodeValue()));
+                                                                        retencionDr.setTipoFactorDr(mapRetDr.getNamedItem("TipoFactorDR").getNodeValue());
+
+                                                                        erpFeRetencionDrDao.save(retencionDr);
+
+                                                                    }
+                                                                  }
+                                                                }
+
+                                                            }
+
+                                                            if (im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(t).getChildNodes().item(a).getNodeName().equalsIgnoreCase("pago20:TrasladosDR")) {
+                                                                
+                                                                System.out.println("-------Impuestos TRASLADOS DR---------");
+
+                                                                for (int b = 0; im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(t).getChildNodes().item(a).getChildNodes().getLength() - 1 >= b; b++) {
+                                                                    
+                                                                    if (im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(t).getChildNodes().item(a).getChildNodes().item(b).getNodeName().equalsIgnoreCase("pago20:TrasladoDR")) {
+                                                                        
+                                                                        System.out.println("-------Impuestos nodo TRASLADO DR---------");
+
+                                                                    org.apache.xerces.dom.AttributeMap mapTrasDr = (AttributeMap) im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(t).getChildNodes().item(a).getChildNodes().item(b).getAttributes();
+
+                                                                    if (mapTrasDr != null) {
+
+                                                                        trasladoDrId.setCompania(id.getCompania());
+                                                                        trasladoDrId.setNumero(id.getNumero());
+                                                                        trasladoDrId.setIdPago(pagoSec);
+                                                                        trasladoDrId.setIdDocRel(idDocRel);
+
+                                                                        int idSecTraDr = erpFeTrasladoDrDao.getMaxIdfindErpFeTrasladoDr(trasladoDrId);
+
+                                                                        trasladoDrId.setId(idSecTraDr);
+                                                                        trasladoDr.setId(trasladoDrId);
+                                                                        trasladoDr.setImporteDr(new BigDecimal(mapTrasDr.getNamedItem("ImporteDR").getNodeValue()));
+                                                                        trasladoDr.setImpuestoDr(mapTrasDr.getNamedItem("ImpuestoDR").getNodeValue());
+                                                                        trasladoDr.setBaseDr(new BigDecimal(mapTrasDr.getNamedItem("BaseDR").getNodeValue()));
+                                                                        trasladoDr.setTasaCuotaDr(new BigDecimal(mapTrasDr.getNamedItem("TasaOCuotaDR").getNodeValue()));
+                                                                        trasladoDr.setTipoFactorDr(mapTrasDr.getNamedItem("TipoFactorDR").getNodeValue());
+
+                                                                        erpFeTrasladoDrDao.save(trasladoDr);
+
+                                                                    }
+                                                                  }
+                                                                }
+                                                            }
+
+                                                        }
+
+                                                    }
+                                                  }
+                                                }
+                                                
                                             }
 
-                                            if (im.getChildNodes().item(w).getChildNodes().item(z).getNodeName().equalsIgnoreCase("pago20:Impuestos")) {
+                                            if (im.getChildNodes().item(w).getChildNodes().item(z).getNodeName().equalsIgnoreCase("pago20:ImpuestosP")) {
 
                                                 System.out.println("-------Impuestos Complemento---------");
-                                                System.out.println(mapP);
-
-                                                impComplId.setCompania(id.getCompania());
-                                                impComplId.setNumero(id.getNumero());
-                                                impComplId.setIdPago(pagoSec);
-                                                impCompl.setId(impComplId);
-
-                                                if (mapP.getNamedItem("TotalImpuestosRetenidos") != null) {
-
-                                                    impCompl.setTotImpRetenidos(new BigDecimal(mapP.getNamedItem("TotalImpuestosRetenidos").getNodeValue()));
-
-                                                }
-
-                                                if (mapP.getNamedItem("TotalImpuestosTrasladados") != null) {
-
-                                                    impCompl.setTotImpRetenidos(new BigDecimal(mapP.getNamedItem("TotalImpuestosTrasladados").getNodeValue()));
-
-                                                }
-
-                                                erpFeImpuestoComplDao.save(impCompl);
-
+                                            
                                                 for (int a = 0; im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().getLength() - 1 >= a; a++) {
 
-                                                    org.apache.xerces.dom.AttributeMap mapA = (AttributeMap) im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(a).getAttributes();
 
-                                                    if (im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(a).getNodeName().equalsIgnoreCase("pago20:Retenciones")) {
-
-                                                        for (int b = 0; im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(a).getChildNodes().getLength() - 1 >= b; b++) {
-
-                                                            org.apache.xerces.dom.AttributeMap mapB = (AttributeMap) im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(a).getChildNodes().item(b).getAttributes();
-
-                                                            if (mapB != null) {
-
-                                                                retComplId.setCompania(id.getCompania());
-                                                                retComplId.setNumero(id.getNumero());
-                                                                retComplId.setIdPago(pagoSec);
-
-                                                                erpFeRetencionComplDao.getMAxIdErpFeRetencionCompl(retComplId);
-
-                                                                retCompl.setId(retComplId);
-                                                                retCompl.setImporte(new BigDecimal(mapP.getNamedItem("Importe").getNodeValue()));
-                                                                retCompl.setImpuesto(mapP.getNamedItem("Impuesto").getNodeValue());
-
-                                                                erpFeRetencionComplDao.save(retCompl);
-
-                                                            }
-                                                        }
-
-                                                    }
-
-                                                    if (im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(a).getNodeName().equalsIgnoreCase("pago20:Traslados")) {
+                                                    if (im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(a).getNodeName().equalsIgnoreCase("pago20:RetencionesP")) {
+                                                        
+                                                        System.out.println("-------Impuestos Complemento retenciones P---------");
 
                                                         for (int b = 0; im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(a).getChildNodes().getLength() - 1 >= b; b++) {
+                                                            
+                                                            if (im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(a).getChildNodes().item(b).getNodeName().equalsIgnoreCase("pago20:RetencionP")) {
+                                                                
+                                                                System.out.println("-------Impuestos Complemento retenciones P nodo datos---------");
 
-                                                            org.apache.xerces.dom.AttributeMap mapB = (AttributeMap) im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(a).getChildNodes().item(b).getAttributes();
 
-                                                            if (mapB != null) {
+                                                                        org.apache.xerces.dom.AttributeMap mapRetp = (AttributeMap) im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(a).getChildNodes().item(b).getAttributes();
 
-                                                                trasComplId.setCompania(id.getCompania());
-                                                                trasComplId.setNumero(id.getNumero());
-                                                                trasComplId.setIdPago(pagoSec);
+                                                                        if (mapRetp != null) {
 
-                                                                int trasImpId = erpFeTrasladoComplDao.getMaxIdErpFeTrasladoCompl(trasComplId);
-                                                                trasComplId.setId(trasImpId);
-                                                                trasCompl.setId(trasComplId);
+                                                                            retComplId.setCompania(id.getCompania());
+                                                                            retComplId.setNumero(id.getNumero());
+                                                                            retComplId.setIdPago(pagoSec);
 
-                                                                trasCompl.setImpuesto(mapP.getNamedItem("Impuesto").getNodeValue());
-                                                                trasCompl.setTipoFactor(mapP.getNamedItem("TipoFactor").getNodeValue());
-                                                                trasCompl.setImporte(new BigDecimal(mapP.getNamedItem("Importe").getNodeValue()));
-                                                                trasCompl.setTasaCuota(new BigDecimal(mapP.getNamedItem("TasaOCuota").getNodeValue()));
+                                                                            erpFeRetencionComplDao.getMAxIdErpFeRetencionCompl(retComplId);
 
-                                                                erpFeTrasladoComplDao.save(trasCompl);
+                                                                            retCompl.setId(retComplId);
+                                                                            retCompl.setImporte(new BigDecimal(mapRetp.getNamedItem("ImporteP").getNodeValue()));
+                                                                            retCompl.setImpuesto(mapRetp.getNamedItem("ImpuestoP").getNodeValue());
 
-                                                            }
+                                                                            erpFeRetencionComplDao.save(retCompl);
+
+                                                                        }
+                                                                    
+                                                                }
+                                                            
                                                         }
-                                                    }
+
+                                                }
+
+                                                if (im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(a).getNodeName().equalsIgnoreCase("pago20:TrasladosP")) {
+
+                                                        for (int b = 0; im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(a).getChildNodes().getLength() - 1 >= b; b++) {
+                                                            
+                                                            if (im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(a).getChildNodes().item(b).getNodeName().equalsIgnoreCase("pago20:TrasladoP")) {
+
+
+                                                                        org.apache.xerces.dom.AttributeMap mapTrasp = (AttributeMap) im.getChildNodes().item(w).getChildNodes().item(z).getChildNodes().item(a).getChildNodes().item(b).getAttributes();
+
+                                                                        if (mapTrasp != null) {
+
+                                                                        trasComplId.setCompania(id.getCompania());
+                                                                        trasComplId.setNumero(id.getNumero());
+                                                                        trasComplId.setIdPago(pagoSec);
+
+                                                                        int trasImpId = erpFeTrasladoComplDao.getMaxIdErpFeTrasladoCompl(trasComplId);
+                                                                        trasComplId.setId(trasImpId);
+                                                                        trasCompl.setId(trasComplId);
+
+                                                                        trasCompl.setImpuesto(mapTrasp.getNamedItem("ImpuestoP").getNodeValue());
+                                                                        trasCompl.setTipoFactor(mapTrasp.getNamedItem("TipoFactorP").getNodeValue());
+                                                                        trasCompl.setImporte(new BigDecimal(mapTrasp.getNamedItem("ImporteP").getNodeValue()));
+                                                                        trasCompl.setTasaCuota(new BigDecimal(mapTrasp.getNamedItem("TasaOCuotaP").getNodeValue()));
+                                                                        trasCompl.setBaseP(new BigDecimal(mapTrasp.getNamedItem("BaseP").getNodeValue()));
+                                                                        erpFeTrasladoComplDao.save(trasCompl);
+
+                                                                        }
+                                                                    }
+                                                                
+                                                            }
+                                                        
+
+                                                }
 
                                                 }
 
@@ -4673,6 +4779,14 @@ public class App {
 
     public void setErpFeOtroPagoDao(ErpFeOtroPagoDao erpFeOtroPagoDao) {
         this.erpFeOtroPagoDao = erpFeOtroPagoDao;
+    }
+
+    public void setErpFeTrasladoDrDao(ErpFeTrasladoDrDao erpFeTrasladoDrDao) {
+        this.erpFeTrasladoDrDao = erpFeTrasladoDrDao;
+    }
+
+    public void setErpFeRetencionDrDao(ErpFeRetencionDrDao erpFeRetencionDrDao) {
+        this.erpFeRetencionDrDao = erpFeRetencionDrDao;
     }
     
     

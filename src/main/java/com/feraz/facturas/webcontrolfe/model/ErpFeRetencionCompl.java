@@ -30,9 +30,9 @@ public class ErpFeRetencionCompl implements java.io.Serializable {
     })
     private ErpFeRetencionComplId id;
     
-    @Column(name = "IMPUESTO")
+    @Column(name = "IMPUESTOP")
     private String impuesto;
-    @Column(name = "IMPORTE")
+    @Column(name = "IMPORTEP")
     private BigDecimal importe;
     
     public ErpFeRetencionCompl(){

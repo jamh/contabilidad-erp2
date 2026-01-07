@@ -10,6 +10,17 @@
         <property name="processDao" ref="processDao"/>    
     </bean>
     
+    
+    <bean id="erpFeRetencionDrDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeRetencionDrDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="erpFeTrasladoDrDao" class="com.feraz.facturas.webcontrolfe.dao1.impl.ErpFeTrasladoDrDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    
     <bean id="erpExtCobranzaDao" class="com.feraz.facturasext.dao.impl.ErpExtCobranzaDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
@@ -711,6 +722,10 @@
          <property name="erpFeImpLocalesDao" ref="erpFeImpLocalesDao"/>
          <property name="erpFeTrasLocalesDao" ref="erpFeTrasLocalesDao"/>
          <property name="erpFeOtroPagoDao" ref="erpFeOtroPagoDao"/>
+         <property name="erpFeTrasladoDrDao" ref="erpFeTrasladoDrDao"/>
+         <property name="erpFeRetencionDrDao" ref="erpFeRetencionDrDao"/>
+         
+         
 
          
    
